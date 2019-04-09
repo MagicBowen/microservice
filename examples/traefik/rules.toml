@@ -1,0 +1,22 @@
+[frontends]
+  [frontends.login]
+  backend = "service"
+  entrypoints = ["web"]
+    [frontends.login.routes.test_1]
+    rule = "Host:127.0.0.1;Path:/login/"
+
+  # [frontends.main]
+  # backend = "index"
+  # entrypoints = ["web"]
+  #   [frontends.main.routes.test_1]
+  #   rule = "Path:/"
+
+[backends]
+  [backends.service]
+    [backends.service.servers.server1]
+    url = "http://172.19.0.3:8866"
+# url = "http://go-service.examples_microservices:8866"
+
+  # [backends.index]
+  #   [backends.index.servers.server1]
+  #   url = "http://www.baidu.com"

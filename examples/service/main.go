@@ -1,11 +1,19 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+)
+
+var (
+	logFile = flag.String("log", "output.log", "Log file name")
 )
 
 type (
@@ -25,6 +33,7 @@ var (
 //----------
 
 func createUser(c echo.Context) error {
+	log.Printf("create user %d\n", seq)
 	u := &user{
 		ID: seq,
 	}
@@ -38,6 +47,7 @@ func createUser(c echo.Context) error {
 
 func getUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
+	log.Printf("get user %d\n", id)
 	return c.JSON(http.StatusOK, users[id])
 }
 
@@ -47,21 +57,37 @@ func updateUser(c echo.Context) error {
 		return err
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
+	log.Printf("update user %d\n", id)
 	users[id].Name = u.Name
 	return c.JSON(http.StatusOK, users[id])
 }
 
 func deleteUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
+	log.Printf("delete user %d\n", id)
 	delete(users, id)
 	return c.NoContent(http.StatusNoContent)
 }
 
 func home(c echo.Context) error {
+	log.Printf("enter service main\n")
 	return c.String(http.StatusOK, "Welcome to Home")
 }
 
+func initLogger() {
+	outfile, err := os.OpenFile(*logFile, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println(*outfile, "open failed")
+		os.Exit(1)
+	}
+	log.SetOutput(outfile)
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+}
+
 func main() {
+	flag.Parse()
+	// initLogger()
+
 	e := echo.New()
 
 	// Middleware
@@ -75,6 +101,8 @@ func main() {
 	e.PUT("/users/:id", updateUser)
 	e.DELETE("/users/:id", deleteUser)
 
+	log.Printf("server run on port 8866...\n")
+
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8866"))
 }

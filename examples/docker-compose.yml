@@ -1,0 +1,26 @@
+version: '3'
+networks:
+  microservices:
+    driver: bridge
+services:
+  api-gateway:
+    image: traefik
+    command: --api --docker # Enables the web UI and tells Træfik to listen to docker
+    ports:
+      - "80:80"         # The HTTP port
+      - "8080:8080"     # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      # - $PWD/traefik/traefik.toml:/etc/traefik/traefik.toml
+      # - $PWD/traefik/traefik.log:/etc/traefik/log/traefik.log
+      # - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
+    networks: 
+      - microservices
+  go-service:
+    image: go-service-full
+    expose:
+      - "8866"
+    labels:
+      - "traefik.frontend.rule=Host:service.docker.localhost"         
+    networks: 
+      - microservices

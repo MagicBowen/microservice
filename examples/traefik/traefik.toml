@@ -139,3 +139,7 @@ format = "common"
 # Default: true
 #
 # exposedByDefault = true
+
+# [file]
+# watch = true
+# filename = "/etc/traefik/rules.toml"
