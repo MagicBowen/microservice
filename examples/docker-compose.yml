@@ -20,6 +20,10 @@ services:
     image: go-service-full
     expose:
       - "8866"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.frontend.entryPoints=web"
+    #   - "traefik.frontend.rule=Path:/"
     networks: 
       - microservices
   etcd1:
