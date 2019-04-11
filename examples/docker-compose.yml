@@ -5,22 +5,47 @@ networks:
 services:
   api-gateway:
     image: traefik
-    command: --api --docker # Enables the web UI and tells Træfik to listen to docker
     ports:
       - "80:80"         # The HTTP port
       - "8080:8080"     # The Web UI (enabled by --api)
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      # - $PWD/traefik/traefik.toml:/etc/traefik/traefik.toml
-      # - $PWD/traefik/traefik.log:/etc/traefik/log/traefik.log
-      # - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
+      - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
+      - $PWD/traefik/traefik.toml:/etc/traefik/traefik.toml
+      - $PWD/traefik/rules.toml:/etc/traefik/rules.toml
+      - $PWD/traefik/traefik.log:/etc/traefik/log/traefik.log
+      - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
     networks: 
       - microservices
   go-service:
     image: go-service-full
     expose:
       - "8866"
-    labels:
-      - "traefik.frontend.rule=Host:service.docker.localhost"         
     networks: 
       - microservices
+  etcd1:
+    image: quay.io/coreos/etcd
+    container_name: etcd1
+    command: etcd -name etcd1 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+    ports:
+      - 2379
+      - 2380
+    networks:
+      - microservices
+  etcd2:
+    image: quay.io/coreos/etcd
+    container_name: etcd2
+    command: etcd -name etcd2 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+    ports:
+      - 2379
+      - 2380
+    networks:
+      - microservices
+  etcd3:
+    image: quay.io/coreos/etcd
+    container_name: etcd3
+    command: etcd -name etcd3 -advertise-client-urls http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 -listen-peer-urls http://0.0.0.0:2380 -initial-cluster-token etcd-cluster -initial-cluster "etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380" -initial-cluster-state new
+    ports:
+      - 2379
+      - 2380
+    networks:
+      - microservices      

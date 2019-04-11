@@ -117,7 +117,7 @@ format = "common"
 ################################################################
 
 # Enable Docker configuration backend
-[providers.docker]
+# [providers.docker]
 
 # Docker server endpoint. Can be a tcp or a unix socket endpoint.
 #
@@ -140,6 +140,24 @@ format = "common"
 #
 # exposedByDefault = true
 
+################################################################
+# docker
+################################################################
+[docker]
+domain = "docker.local"
+watch = true
+exposedbydefault = false
+################################################################
+# kv store
+################################################################
+[etcd]
+endpoint = "172.19.0.4:2379"
+watch = true
+useAPIV3 = true
+prefix = "/traefik"
+################################################################
+# file
+################################################################
 # [file]
 # watch = true
 # filename = "/etc/traefik/rules.toml"
