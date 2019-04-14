@@ -18,7 +18,7 @@ services:
       - microservices
   http-service:
     build:
-      context: ./service
+      context: ./services/http-service
     image: http-service:1.0.0
     depends_on:
       - api-gateway

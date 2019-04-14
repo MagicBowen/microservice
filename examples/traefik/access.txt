@@ -1,0 +1,3 @@
+172.19.0.1 - - [14/Apr/2019:13:05:55 +0000] "GET /user HTTP/1.1" 200 23 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36" 11 "PathStrip-user-0" "http://172.19.0.3:8866" 11ms
+172.19.0.1 - - [14/Apr/2019:13:05:58 +0000] "GET /user HTTP/1.1" 200 23 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36" 12 "PathStrip-user-0" "http://172.19.0.3:8866" 2ms
+172.19.0.1 - - [14/Apr/2019:14:27:51 +0000] "GET /user HTTP/1.1" 200 23 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36" 13 "PathStrip-user-0" "http://172.19.0.3:8866" 6ms
