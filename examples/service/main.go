@@ -69,9 +69,17 @@ func deleteUser(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
+func getSiteName() string {
+	host, err := os.Hostname()
+	if err != nil {
+		return "none"
+	}
+	return host
+}
+
 func home(c echo.Context) error {
-	log.Printf("enter service main\n")
-	return c.String(http.StatusOK, "Welcome to Home")
+	log.Printf("Home Page!\n")
+	return c.String(http.StatusOK, "Welcome to "+getSiteName())
 }
 
 func initLogger() {
