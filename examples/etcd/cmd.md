@@ -1,4 +1,5 @@
 ```bash
+docker exec -it -e ETCDCTL_API=3 etcd1 etcdctl get --prefix /traefik
 docker exec -it -e ETCDCTL_API=3 etcd1 etcdctl put /traefik/frontends/service/entrypoints/0 web
 docker exec -it -e ETCDCTL_API=3 etcd1 etcdctl put /traefik/frontends/service/backend service
 docker exec -it -e ETCDCTL_API=3 etcd1 etcdctl put /traefik/frontends/service/routes/test_1/rule Path:/

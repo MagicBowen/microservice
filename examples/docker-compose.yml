@@ -16,14 +16,18 @@ services:
       - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
     networks: 
       - microservices
-  go-service:
-    image: go-service-full
+  http-service:
+    build:
+      context: ./service
+    image: http-service:1.0.0
+    depends_on:
+      - api-gateway
     expose:
       - "8866"
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.frontend.entryPoints=web"
-    #   - "traefik.frontend.rule=Path:/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathStrip:/user"
     networks: 
       - microservices
   etcd1:
@@ -52,4 +56,4 @@ services:
       - 2379
       - 2380
     networks:
-      - microservices      
+      - microservices
