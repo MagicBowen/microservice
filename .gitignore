@@ -1,3 +1,4 @@
 .DS_Store
-./examples/service/microservice-example 
-./examples/mongo/data/*
+examples/traefik/access.txt
+examples/traefik/traefik.log
+examples/mongo/data/*
