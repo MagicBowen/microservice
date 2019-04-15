@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package service_interface;
+
+message UserRequest {
+    int32 id = 1;
+}
+
+message UserRsp {
+    string name = 1;
+}
+
+message UserInfoMsg {
+    int32 id = 1;
+    string name = 2;
+}
+
+message StatusMsg {
+    int32 code = 1;
+}
+
+service Entity {
+    rpc GetUser(UserRequest) returns (UserRsp);
+    rpc AddUser(UserInfoMsg) returns (StatusMsg);
+    rpc UpdateUser(UserInfoMsg) returns (StatusMsg);
+    rpc DeleteUser(UserRequest) returns (StatusMsg);
+}
