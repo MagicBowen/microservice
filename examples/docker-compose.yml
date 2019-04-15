@@ -12,8 +12,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
       - $PWD/traefik/traefik.toml:/etc/traefik/traefik.toml
       - $PWD/traefik/rules.toml:/etc/traefik/rules.toml
-      - $PWD/traefik/traefik.log:/etc/traefik/log/traefik.log
-      - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
+      # - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
     networks: 
       - microservices
   http-service:
@@ -32,6 +31,7 @@ services:
       - microservices
   mongodb:
     image: mongo
+    container_name: mongodb
     expose:
       - "27017"
     volumes:
