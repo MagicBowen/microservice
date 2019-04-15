@@ -2,3 +2,4 @@
 examples/traefik/access.txt
 examples/traefik/traefik.log
 examples/mongo/data/*
+examples/redis/data/*
