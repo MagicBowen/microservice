@@ -1,20 +1,43 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"time"
+
+	api "github.com/magicbowen/microservice/examples/services/api"
+	"google.golang.org/grpc"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
+//----------
+// Logger
+//----------
+
 var (
 	logFile = flag.String("log", "output.log", "Log file name")
 )
+
+func initLogger() {
+	outfile, err := os.OpenFile(*logFile, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println(*outfile, "open failed")
+		os.Exit(1)
+	}
+	log.SetOutput(outfile)
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+}
+
+//----------
+// type
+//----------
 
 type (
 	user struct {
@@ -23,13 +46,64 @@ type (
 	}
 )
 
+//----------
+// gRPC Client
+//----------
+
+const (
+	entityServerAddress = "localhost:8899"
+)
+
+type clientRPC struct {
+	cc *grpc.ClientConn
+	ec api.EntityClient
+}
+
+func (client *clientRPC) initial() error {
+	var err error
+	client.cc, err = grpc.Dial(entityServerAddress, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("connect %s error: %v", entityServerAddress, err)
+		return err
+	}
+	client.ec = api.NewEntityClient(client.cc)
+	log.Printf("RPC client initialed successful\n")
+	return nil
+}
+
+func (client clientRPC) release() {
+	if client.cc != nil {
+		client.cc.Close()
+		log.Printf("RPC client released successful\n")
+	}
+}
+
+func (client clientRPC) getUser(id int32) *user {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	// log.Printf("client ec is %v\n", client.ec)
+	u, err := client.ec.GetUser(ctx, &api.UserRequest{Id: id})
+	if err != nil {
+		log.Fatalf("get user error: %v", err)
+	}
+	return &user{ID: int(id), Name: u.Name}
+}
+
+var (
+	rpc clientRPC
+)
+
+//----------
+// Http Api
+//----------
+
 var (
 	users = map[int]*user{}
 	seq   = 1
 )
 
 //----------
-// Handlers
+// Http Handlers
 //----------
 
 func createUser(c echo.Context) error {
@@ -48,7 +122,8 @@ func createUser(c echo.Context) error {
 func getUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	log.Printf("get user %d\n", id)
-	return c.JSON(http.StatusOK, users[id])
+	user := rpc.getUser(int32(id))
+	return c.JSON(http.StatusOK, user)
 }
 
 func updateUser(c echo.Context) error {
@@ -69,6 +144,10 @@ func deleteUser(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
+//----------
+// Health Entrypoint
+//----------
+
 func getSiteName() string {
 	host, err := os.Hostname()
 	if err != nil {
@@ -82,19 +161,20 @@ func home(c echo.Context) error {
 	return c.String(http.StatusOK, "Welcome to "+getSiteName())
 }
 
-func initLogger() {
-	outfile, err := os.OpenFile(*logFile, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Println(*outfile, "open failed")
-		os.Exit(1)
-	}
-	log.SetOutput(outfile)
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-}
+//----------
+// Initial and setup
+//----------
 
 func main() {
 	flag.Parse()
 	// initLogger()
+
+	err := rpc.initial()
+	if err != nil {
+		log.Fatalf("gRPC init failed")
+		return
+	}
+	defer rpc.release()
 
 	e := echo.New()
 

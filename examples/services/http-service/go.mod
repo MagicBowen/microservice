@@ -1,6 +1,11 @@
 module http-service
 
-require github.com/labstack/echo/v4 v4.0.0
+require (
+	github.com/golang/protobuf v1.3.1 // indirect
+	github.com/labstack/echo/v4 v4.0.0
+	github.com/magicbowen/microservice v0.0.0-20190415042554-58fe9779d58c
+	google.golang.org/grpc v1.20.0
+)
 
 replace golang.org/x/crypto v0.0.0-20190130090550-b01c7a725664 => github.com/golang/crypto v0.0.0-20190130090550-b01c7a725664
 
