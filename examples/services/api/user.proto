@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package service_interface;
+package api;
 
 message UserRequest {
     int32 id = 1;
