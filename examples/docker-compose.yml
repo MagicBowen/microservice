@@ -27,9 +27,17 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.entryPoints=web"
-      - "traefik.frontend.rule=PathStrip:/user"
+      - "traefik.frontend.rule=PathStrip:/api"
     networks: 
       - microservices
+  mongodb:
+    image: mongo
+    expose:
+      - "27017"
+    volumes:
+      - $PWD/mongo/data/db:/data/db
+    networks: 
+      - microservices      
   etcd1:
     image: quay.io/coreos/etcd
     container_name: etcd1

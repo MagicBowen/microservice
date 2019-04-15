@@ -1,3 +1,8 @@
+## How to setup ETCD cluster
+
+According `docker-compose.yml`
+
+## add traefik dynamic configurations to etcd
 ```bash
 docker exec -it -e ETCDCTL_API=3 etcd1 etcdctl get --prefix /traefik
 docker exec -it -e ETCDCTL_API=3 etcd1 etcdctl put /traefik/frontends/service/entrypoints/0 web
