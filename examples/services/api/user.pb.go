@@ -8,8 +8,6 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -283,23 +281,6 @@ type EntityServer interface {
 	AddUser(context.Context, *UserInfoMsg) (*StatusMsg, error)
 	UpdateUser(context.Context, *UserInfoMsg) (*StatusMsg, error)
 	DeleteUser(context.Context, *UserRequest) (*StatusMsg, error)
-}
-
-// UnimplementedEntityServer can be embedded to have forward compatible implementations.
-type UnimplementedEntityServer struct {
-}
-
-func (*UnimplementedEntityServer) GetUser(ctx context.Context, req *UserRequest) (*UserRsp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
-}
-func (*UnimplementedEntityServer) AddUser(ctx context.Context, req *UserInfoMsg) (*StatusMsg, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddUser not implemented")
-}
-func (*UnimplementedEntityServer) UpdateUser(ctx context.Context, req *UserInfoMsg) (*StatusMsg, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
-}
-func (*UnimplementedEntityServer) DeleteUser(ctx context.Context, req *UserRequest) (*StatusMsg, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 
 func RegisterEntityServer(s *grpc.Server, srv EntityServer) {

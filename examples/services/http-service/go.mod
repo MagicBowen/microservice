@@ -1,4 +1,4 @@
-module microservice-example-http-service
+module http-service
 
 require github.com/labstack/echo/v4 v4.0.0
 

@@ -12,7 +12,6 @@ make && sudo make install
 ### install go protobuffer generator
 
 ```sh
-git clone https://github.com/golang/protobuf.git $GOPATH/src/github.com/golang/protobuf 
 go get -u github.com/golang/protobuf/proto
 go get -u github.com/golang/protobuf/protoc-gen-go
 ```
