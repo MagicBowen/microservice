@@ -71,14 +71,14 @@ func (client *clientRPC) initial() error {
 	return nil
 }
 
-func (client clientRPC) release() {
+func (client *clientRPC) release() {
 	if client.cc != nil {
 		client.cc.Close()
 		log.Printf("RPC client released successful\n")
 	}
 }
 
-func (client clientRPC) getUser(id int32) *user {
+func (client *clientRPC) getUser(id int32) *user {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	// log.Printf("client ec is %v\n", client.ec)
