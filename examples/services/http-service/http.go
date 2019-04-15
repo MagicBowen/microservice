@@ -15,8 +15,12 @@ func createUser(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-
-	log.Printf("create user %v\n", u)
+	err := rpc.addUser(u)
+	if err != nil {
+		log.Printf("create user %v failed\n", u)
+		return c.NoContent(http.StatusForbidden)
+	}
+	log.Printf("create user %v success\n", u)
 	return c.JSON(http.StatusCreated, u)
 }
 
@@ -32,17 +36,25 @@ func updateUser(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	id, _ := strconv.Atoi(c.Param("id"))
-	log.Printf("update user %d\n", id)
-	// users[id].Name = u.Name
+	u.ID, _ = strconv.Atoi(c.Param("id"))
+	err := rpc.updateUser(u)
+	if err != nil {
+		log.Printf("update user %v failed\n", u)
+		return c.NoContent(http.StatusForbidden)
+	}
+	log.Printf("update user %v success\n", u)
 	return c.JSON(http.StatusOK, u)
 }
 
 func deleteUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	log.Printf("delete user %d\n", id)
-	// delete(users, id)
-	return c.NoContent(http.StatusNoContent)
+	err := rpc.deleteUser(id)
+	if err != nil {
+		log.Printf("delete user %d failed\n", id)
+		return c.NoContent(http.StatusForbidden)
+	}
+	log.Printf("delete user %d success\n", id)
+	return c.String(http.StatusOK, "ok")
 }
 
 func getSiteName() string {
