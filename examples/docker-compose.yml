@@ -36,12 +36,11 @@ services:
     build:
       context: ./services/entity-service
     image: entity-service:1.0.0
-    container_name: entity-service
     depends_on:
       - mongodb
     expose:
       - "8899"
-    networks: 
+    networks:
       - microservices
   mongodb:
     image: mongo

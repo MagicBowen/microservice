@@ -4,9 +4,14 @@ import (
 	"context"
 	"log"
 	"net"
+	"time"
 
 	api "github.com/magicbowen/microservice/examples/services/api"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"google.golang.org/grpc"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // server is used to implement interface.EntityServer.
@@ -37,6 +42,25 @@ const (
 )
 
 func main() {
+	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://mongodb:27017"))
+	if err != nil {
+		log.Printf("connect mongodb err: %v", err)
+	}
+	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
+	err = client.Ping(ctx, readpref.Primary())
+	if err != nil {
+		log.Printf("mongo service client err: %v!", err)
+	}
+	collection := client.Database("testing").Collection("numbers")
+	ctx, _ = context.WithTimeout(context.Background(), 5*time.Second)
+	res, err := collection.InsertOne(ctx, bson.M{"name": "pi", "value": 3.14159})
+	if err != nil {
+		log.Printf("insert failed, %v", err)
+	}
+	id := res.InsertedID
+	log.Printf("insert ok, id = %v", id)
+
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
