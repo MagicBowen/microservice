@@ -39,20 +39,30 @@ func (s *userRPCServer) startUp(address string, repo *userRepo) {
 
 func (s *userRPCServer) GetUser(ctx context.Context, req *api.UserRequest) (*api.UserRsp, error) {
 	log.Printf("Get user: %v", req.Id)
-	return &api.UserRsp{Name: "Bowen"}, nil
+	user := s.repo.getUserByID(int(req.Id))
+	return &api.UserRsp{Name: user.Name}, nil
 }
 
 func (s *userRPCServer) AddUser(ctx context.Context, user *api.UserInfoMsg) (*api.StatusMsg, error) {
 	log.Printf("Add user: %v", user)
+	if err := s.repo.createUser(createUserEntity(user)); err != nil {
+		return &api.StatusMsg{Code: -1}, err
+	}
 	return &api.StatusMsg{Code: 0}, nil
 }
 
 func (s *userRPCServer) UpdateUser(ctx context.Context, user *api.UserInfoMsg) (*api.StatusMsg, error) {
 	log.Printf("Update user: %v", user)
+	if err := s.repo.updateUser(createUserEntity(user)); err != nil {
+		return &api.StatusMsg{Code: -1}, err
+	}
 	return &api.StatusMsg{Code: 0}, nil
 }
 
 func (s *userRPCServer) DeleteUser(ctx context.Context, req *api.UserRequest) (*api.StatusMsg, error) {
 	log.Printf("Delete user: %v", req.Id)
+	if err := s.repo.deleteUser(int(req.Id)); err != nil {
+		return &api.StatusMsg{Code: -1}, err
+	}
 	return &api.StatusMsg{Code: 0}, nil
 }

@@ -16,17 +16,10 @@ const (
 	collectionName = "user"
 )
 
-type (
-	user struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	}
-
-	userRepo struct {
-		client     *mongo.Client
-		collection *mongo.Collection
-	}
-)
+type userRepo struct {
+	client     *mongo.Client
+	collection *mongo.Collection
+}
 
 func getDefaultTimeoutCtx() (context.Context, context.CancelFunc) {
 	return context.WithTimeout(context.Background(), 5*time.Second)
@@ -65,10 +58,35 @@ func (repo *userRepo) initial(address string) {
 	repo.initCollection(repo.client)
 }
 
-func (repo *userRepo) createUser(u *user) error {
+func (repo *userRepo) createUser(user *userEntity) error {
 	ctx, cancel := getDefaultTimeoutCtx()
 	defer cancel()
-	_, err := repo.collection.InsertOne(ctx, bson.M{"id": u.ID, "name": u.Name})
+	_, err := repo.collection.InsertOne(ctx, bson.M{"id": user.ID, "name": user.Name})
+	return err
+}
+
+func (repo *userRepo) getUserByID(id int) *userEntity {
+	ctx, cancel := getDefaultTimeoutCtx()
+	defer cancel()
+	var user userEntity
+	if err := repo.collection.FindOne(ctx, bson.M{"id": id}).Decode(&user); err != nil {
+		log.Fatalf("find user by id(%d) failed: %v", id, err)
+		return nil
+	}
+	return &user
+}
+
+func (repo *userRepo) updateUser(user *userEntity) error {
+	ctx, cancel := getDefaultTimeoutCtx()
+	defer cancel()
+	_, err := repo.collection.UpdateOne(ctx, bson.M{"id": user.ID}, bson.D{{"name", user.Name}})
+	return err
+}
+
+func (repo *userRepo) deleteUser(id int) error {
+	ctx, cancel := getDefaultTimeoutCtx()
+	defer cancel()
+	_, err := repo.collection.DeleteMany(ctx, bson.M{"id": id})
 	return err
 }
 
