@@ -5,6 +5,7 @@ networks:
 services:
   api-gateway:
     image: traefik
+    container_name: api-gateway
     ports:
       - "80:80"         # The HTTP port
       - "8080:8080"     # The Web UI (enabled by --api)
@@ -21,12 +22,25 @@ services:
     image: http-service:1.0.0
     depends_on:
       - api-gateway
+      - redis
+      - entity-service
     expose:
       - "8866"
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.entryPoints=web"
-      - "traefik.frontend.rule=PathStrip:/api"
+      - "traefik.frontend.rule=PathPrefixStrip:/api/"
+    networks: 
+      - microservices
+  entity-service:
+    build:
+      context: ./services/entity-service
+    image: entity-service:1.0.0
+    container_name: entity-service
+    depends_on:
+      - mongodb
+    expose:
+      - "8899"
     networks: 
       - microservices
   mongodb:
@@ -37,7 +51,20 @@ services:
     volumes:
       - $PWD/mongo/data/db:/data/db
     networks: 
-      - microservices      
+      - microservices
+  redis:
+    image: redis
+    container_name: redis
+    expose:
+      - "6379"
+    volumes:
+      - $PWD/redis/data:/data
+    entrypoint:
+      - redis-server
+      - --appendonly
+      - "yes"
+    networks: 
+      - microservices 
   etcd1:
     image: quay.io/coreos/etcd
     container_name: etcd1

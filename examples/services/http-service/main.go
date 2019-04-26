@@ -13,7 +13,7 @@ func main() {
 	flag.Parse()
 	// initLogger(logFile)
 
-	err := rpc.initial("localhost:8899")
+	err := rpc.initial("entity-service:8899")
 	if err != nil {
 		log.Fatalf("gRPC init failed")
 		return

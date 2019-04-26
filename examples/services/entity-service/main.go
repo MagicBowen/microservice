@@ -9,10 +9,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-const (
-	port = ":8899"
-)
-
 // server is used to implement interface.EntityServer.
 type userEntityServer struct{}
 
@@ -35,6 +31,10 @@ func (s *userEntityServer) DeleteUser(ctx context.Context, req *api.UserRequest)
 	log.Printf("Delete user: %v", req.Id)
 	return &api.StatusMsg{Code: 0}, nil
 }
+
+const (
+	port = ":8899"
+)
 
 func main() {
 	lis, err := net.Listen("tcp", port)
