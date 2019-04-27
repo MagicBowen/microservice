@@ -35,14 +35,16 @@ func (client *RPC) release() {
 	}
 }
 
-func (client *RPC) getUser(id int32) *user {
+func (client *RPC) getUser(id int32) (*user, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	u, err := client.ec.GetUser(ctx, &api.UserRequest{Id: id})
 	if err != nil {
-		log.Fatalf("get user error: %v", err)
+		errStr := fmt.Sprintf("get user error: %v", err)
+		log.Printf(errStr)
+		return nil, errors.New(errStr)
 	}
-	return &user{ID: int(id), Name: u.Name}
+	return &user{ID: int(id), Name: u.Name}, nil
 }
 
 func (client *RPC) addUser(u *user) error {
@@ -50,12 +52,12 @@ func (client *RPC) addUser(u *user) error {
 	defer cancel()
 	status, err := client.ec.AddUser(ctx, &api.UserInfoMsg{Id: int32(u.ID), Name: u.Name})
 	if err != nil {
-		log.Fatalf("add user error: %v", err)
+		log.Printf("add user error: %v", err)
 		return err
 	}
 	if status.Code != 0 {
 		errStr := fmt.Sprintf("add user error, status code: %d", status.Code)
-		log.Fatalf(errStr)
+		log.Printf(errStr)
 		return errors.New(errStr)
 	}
 	return nil
@@ -66,12 +68,12 @@ func (client *RPC) updateUser(u *user) error {
 	defer cancel()
 	status, err := client.ec.UpdateUser(ctx, &api.UserInfoMsg{Id: int32(u.ID), Name: u.Name})
 	if err != nil {
-		log.Fatalf("update user error: %v", err)
+		log.Printf("update user error: %v", err)
 		return err
 	}
 	if status.Code != 0 {
 		errStr := fmt.Sprintf("update user error, status code: %d", status.Code)
-		log.Fatalf(errStr)
+		log.Printf(errStr)
 		return errors.New(errStr)
 	}
 	return nil
@@ -82,12 +84,12 @@ func (client *RPC) deleteUser(id int) error {
 	defer cancel()
 	status, err := client.ec.DeleteUser(ctx, &api.UserRequest{Id: int32(id)})
 	if err != nil {
-		log.Fatalf("delete user error: %v", err)
+		log.Printf("delete user error: %v", err)
 		return err
 	}
 	if status.Code != 0 {
 		errStr := fmt.Sprintf("delete user error, status code: %d", status.Code)
-		log.Fatalf(errStr)
+		log.Printf(errStr)
 		return errors.New(errStr)
 	}
 	return nil

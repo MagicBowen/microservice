@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"net"
 
@@ -39,8 +40,10 @@ func (s *userRPCServer) startUp(address string, repo *userRepo) {
 
 func (s *userRPCServer) GetUser(ctx context.Context, req *api.UserRequest) (*api.UserRsp, error) {
 	log.Printf("Get user: %v", req.Id)
-	user := s.repo.getUserByID(int(req.Id))
-	return &api.UserRsp{Name: user.Name}, nil
+	if user := s.repo.getUserByID(int(req.Id)); user != nil {
+		return &api.UserRsp{Name: user.Name}, nil
+	}
+	return nil, errors.New("Get none user!\n ")
 }
 
 func (s *userRPCServer) AddUser(ctx context.Context, user *api.UserInfoMsg) (*api.StatusMsg, error) {

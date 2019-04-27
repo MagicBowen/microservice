@@ -1,6 +1,8 @@
 package main
 
-import api "github.com/magicbowen/microservice/examples/services/api"
+import (
+	api "github.com/magicbowen/microservice/examples/services/api"
+)
 
 type userEntity struct {
 	ID   int    `json:"id"`

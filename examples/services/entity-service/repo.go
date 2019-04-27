@@ -70,7 +70,7 @@ func (repo *userRepo) getUserByID(id int) *userEntity {
 	defer cancel()
 	var user userEntity
 	if err := repo.collection.FindOne(ctx, bson.M{"id": id}).Decode(&user); err != nil {
-		log.Fatalf("find user by id(%d) failed: %v", id, err)
+		log.Printf("find user by id(%d) failed: %v", id, err)
 		return nil
 	}
 	return &user
@@ -79,7 +79,7 @@ func (repo *userRepo) getUserByID(id int) *userEntity {
 func (repo *userRepo) updateUser(user *userEntity) error {
 	ctx, cancel := getDefaultTimeoutCtx()
 	defer cancel()
-	_, err := repo.collection.UpdateOne(ctx, bson.M{"id": user.ID}, bson.D{{"name", user.Name}})
+	_, err := repo.collection.UpdateOne(ctx, bson.M{"id": user.ID}, bson.M{"$set": bson.M{"name": user.Name}})
 	return err
 }
 
