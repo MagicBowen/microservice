@@ -8,6 +8,8 @@ require (
 	github.com/google/go-cmp v0.2.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/magicbowen/microservice v0.0.0-20190415035252-cdb86c10c555
+	github.com/onsi/ginkgo v1.8.0 // indirect
+	github.com/onsi/gomega v1.5.0 // indirect
 	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
 	github.com/xdg/stringprep v1.0.0 // indirect

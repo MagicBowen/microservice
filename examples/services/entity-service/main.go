@@ -1,5 +1,22 @@
 package main
 
+import "time"
+
+const (
+	mongoAddress      = "mongodb://mongodb:27017"
+	dbName            = "microservice-example"
+	collectionName    = "user"
+	mongoOPExpiration = 2 * time.Second
+
+	redisAddress    = "redis:6379"
+	cacheExpiration = 5 * time.Second
+
+	serviceAddress = ":8899"
+)
+
 func main() {
-	(&userRPCServer{}).startUp(":8899", createRepo("mongodb://mongodb:27017"))
+	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)
+	cache := createEntityCache(redisAddress, cacheExpiration)
+	repo := createUserRepo(db, cache)
+	(&userRPCServer{}).startUp(serviceAddress, repo)
 }
