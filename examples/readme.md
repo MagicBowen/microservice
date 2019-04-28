@@ -53,3 +53,9 @@ options ndots:0
 如果用docker-compose启动的service，使用`dig service_name a`，也能看到该service下的所有主机的IP地址。由此可知，docker-compose在scale service的时候，会把该service下的每个container的IP加入到内嵌DNS的service name下。
 
 经过测试，内嵌DNS中一个service name对应了多个container的IP的时候，做DNS解析请求获得service name的时候，DNS服务器总是返回最后一个有效的IP地址。
+
+## service registration & discovery
+
+reference:
+- https://medium.com/@maxy_ermayank/service-registration-and-discovery-configuration-management-dffb15fc08a7
+- https://deaddesk.top/service-discovery-with-etcd/
