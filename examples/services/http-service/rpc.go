@@ -98,30 +98,3 @@ func (client *RPC) deleteUser(id int) error {
 var (
 	rpc RPC
 )
-
-// type result interface{}
-
-// func exec(method func(ctx context.Context) (result, error)) (result, error) {
-// 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-// 	defer cancel()
-// 	return method(ctx)
-// }
-
-// func (client *RPC) getUser(id int32) *user {
-// 	r, err := exec(func(ctx context.Context) (result, error) {
-// 		u, err := client.ec.GetUser(ctx, &api.UserRequest{Id: id})
-// 		if err != nil {
-// 			log.Fatalf("get user error: %v", err)
-// 			return nil, err
-// 		}
-// 		return &user{ID: int(id), Name: u.Name}, nil
-// 	})
-// 	if err != nil {
-// 		return &user{ID: int(id), Name: "none"}
-// 	}
-// 	value, ok := r.(*user)
-// 	if ok {
-// 		return value
-// 	}
-// 	return &user{ID: int(id), Name: "none"}
-// }
