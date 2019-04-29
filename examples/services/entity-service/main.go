@@ -16,7 +16,7 @@ const (
 
 func main() {
 	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)
-	cache := createEntityCache(redisAddress, cacheExpiration)
+	cache := createCache(redisAddress, cacheExpiration)
 	repo := createUserRepo(db, cache)
 	(&userRPCServer{}).startUp(serviceAddress, repo)
 }

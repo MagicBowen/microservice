@@ -8,17 +8,17 @@ import (
 	"github.com/go-redis/redis"
 )
 
-type redisCache struct {
+type redisClient struct {
 	address    string
 	expiration time.Duration
 	client     *redis.Client
 }
 
-func (rc *redisCache) set(key string, value string) error {
+func (rc *redisClient) set(key string, value string) error {
 	return rc.client.Set(key, value, rc.expiration).Err()
 }
 
-func (rc *redisCache) get(key string) (string, error) {
+func (rc *redisClient) get(key string) (string, error) {
 	value, err := rc.client.Get(key).Result()
 	if err == redis.Nil {
 		errStr := fmt.Sprintf("key (%s) does not exist!", key)
@@ -28,4 +28,8 @@ func (rc *redisCache) get(key string) (string, error) {
 	} else {
 		return value, nil
 	}
+}
+
+func (rc *redisClient) del(key string) error {
+	return rc.client.Del(key).Err()
 }
