@@ -1,10 +1,10 @@
 module http-service
 
 require (
-	github.com/golang/protobuf v1.3.1 // indirect
+	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190501150515-b439309485ea
 	github.com/labstack/echo/v4 v4.0.0
 	github.com/magicbowen/microservice v0.0.0-20190415042554-58fe9779d58c
-	google.golang.org/grpc v1.20.0
+	google.golang.org/grpc v1.20.1
 )
 
 replace golang.org/x/crypto v0.0.0-20190130090550-b01c7a725664 => github.com/golang/crypto v0.0.0-20190130090550-b01c7a725664
@@ -30,6 +30,8 @@ replace golang.org/x/net v0.0.0-20190311183353-d8887717615a => github.com/golang
 replace golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3 => github.com/golang/lint v0.0.0-20190313153728-d0100b6bd8b3
 
 replace golang.org/x/tools v0.0.0-20190311212946-11955173bddd => github.com/golang/tools v0.0.0-20190311212946-11955173bddd
+
+replace golang.org/x/tools v0.0.0-20180221164845-07fd8470d635 => github.com/golang/tools v0.0.0-20180221164845-07fd8470d635
 
 replace golang.org/x/text v0.3.0 => github.com/golang/text v0.3.0
 

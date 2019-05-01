@@ -16,15 +16,16 @@ const (
 	cacheExpiration = 5 * time.Second
 
 	serviceAddress = ":8899"
-
-	etcdEndpoints = []string{"etcd1:2379", "etcd2:2379", "etcd3:2379"}
 )
 
 func main() {
 	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)
 	cache := createCache(redisAddress, cacheExpiration)
 	repo := createUserRepo(db, cache)
-	service := registration.NewService("http-service").Address(serviceAddress).RegisterTo(etcdEndpoints, "services")
+
+	etcdEndpoints := []string{"etcd1:2379", "etcd2:2379", "etcd3:2379"}
+	service := registration.NewService("entity-service").Address(serviceAddress).RegisterTo(etcdEndpoints, "services")
 	defer service.Stop()
+
 	(&userRPCServer{}).startUp(serviceAddress, repo)
 }
