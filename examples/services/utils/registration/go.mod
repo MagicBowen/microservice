@@ -1,4 +1,4 @@
-module registration
+module github.com/MagicBowen/microservice/examples/services/utils/registration
 
 replace google.golang.org/grpc => github.com/grpc/grpc-go v1.20.0
 
