@@ -1,4 +1,4 @@
-package main
+package registration
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ func getNoneLoopbackIpv4(addr net.Addr) (string, error) {
 	if !ok {
 		return "", errors.New("get ip error")
 	}
-	if ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
+	if !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
 		return ipnet.IP.String(), nil
 	}
 	return "", errors.New("ip not satisfied")

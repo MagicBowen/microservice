@@ -1,17 +1,16 @@
 /*
 Package registration for service registration;
 Usage:
-	server, err := Registration.NewService("service1").Address("localhost:8080").RegisterTo(endpoints)
-	defer server.stop()
+	service := NewService("test").Address("127.0.0.1:8080").RegisterTo([]string{"localhost:2379"}, "services")
+	defer service.Stop()
 */
-package main
+package registration
 
 import (
 	"context"
 	"fmt"
 	"log"
 	"strings"
-	"time"
 
 	"go.etcd.io/etcd/clientv3"
 )
@@ -46,12 +45,13 @@ func (s *Service) TTL(ttl int64) *Service {
 }
 
 func (s *Service) RegisterTo(endpoints []string, pathPrefix string) *Service {
-	s.saveParameters(endpoints, pathPrefix)
+	s.initParameters(endpoints, pathPrefix)
 	go s.keepAlive()
 	return s
 }
 
 func (s *Service) Stop() {
+	log.Println("active stop service keepalive")
 	s.stop <- nil
 }
 
@@ -63,7 +63,7 @@ func (s *Service) revoke() {
 	log.Printf("service:%s stopped\n", s.name)
 }
 
-func (s *Service) saveAddress() {
+func (s *Service) initAddress() {
 	addressParts := strings.Split(s.address, ":")
 	var ip, port string
 	if addressParts[0] == "" {
@@ -79,13 +79,13 @@ func (s *Service) saveAddress() {
 	s.address = fmt.Sprintf("%s:%s", ip, port)
 }
 
-func (s *Service) saveTTL() {
+func (s *Service) initTTL() {
 	if s.ttl == 0 {
 		s.ttl = 5
 	}
 }
 
-func (s *Service) saveClient(endpoints []string) {
+func (s *Service) initClient(endpoints []string) {
 	client, err := getEtcdClient(endpoints)
 	if err != nil {
 		log.Fatalf("create etcd client failed: %v", err)
@@ -93,11 +93,11 @@ func (s *Service) saveClient(endpoints []string) {
 	s.client = client
 }
 
-func (s *Service) saveKey(pathPrefix string) {
-	s.key = fmt.Sprintf("/%s/%s", pathPrefix, s.name)
+func (s *Service) initKey(pathPrefix string) {
+	s.key = fmt.Sprintf("%s%s%s", concatPathOf(pathPrefix), concatPathOf(s.name), concatPathOf(s.address))
 }
 
-func (s *Service) saveLease() {
+func (s *Service) initLease() {
 	rsp, err := s.client.Grant(context.TODO(), s.ttl)
 	if err != nil {
 		log.Fatalf("etcd grant failed: %v", err)
@@ -109,12 +109,17 @@ func (s *Service) saveLease() {
 	s.leaseID = rsp.ID
 }
 
-func (s *Service) saveParameters(endpoints []string, pathPrefix string) {
-	s.saveAddress()
-	s.saveTTL()
-	s.saveClient(endpoints)
-	s.saveKey(pathPrefix)
-	s.saveLease()
+func (s *Service) initStopChan() {
+	s.stop = make(chan interface{})
+}
+
+func (s *Service) initParameters(endpoints []string, pathPrefix string) {
+	s.initAddress()
+	s.initTTL()
+	s.initClient(endpoints)
+	s.initKey(pathPrefix)
+	s.initLease()
+	s.initStopChan()
 }
 
 func (s *Service) keepAlive() {
@@ -128,6 +133,7 @@ func (s *Service) keepAlive() {
 		case _ = <-s.stop:
 			log.Printf("service has been shutdown")
 			s.revoke()
+			s.client.Close()
 			return
 		case <-s.client.Ctx().Done():
 			log.Printf("etcd server closed")
@@ -141,14 +147,4 @@ func (s *Service) keepAlive() {
 			log.Printf("received reply from service: %s, ttl:%d", s.name, ka.TTL)
 		}
 	}
-}
-
-func getEtcdClient(endpoints []string) (*clientv3.Client, error) {
-	return clientv3.New(clientv3.Config{Endpoints: endpoints, DialTimeout: 5 * time.Second})
-}
-
-func main() {
-	service := NewService("test").RegisterTo([]string{"localhost:9000"}, "services")
-	defer service.Stop()
-	time.Sleep(time.Second * 60)
 }

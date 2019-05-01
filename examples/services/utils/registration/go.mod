@@ -31,7 +31,6 @@ replace golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2 => github.com/gol
 replace golang.org/x/tools v0.0.0-20180221164845-07fd8470d635 => github.com/golang/tools v0.0.0-20180221164845-07fd8470d635
 
 require (
-	github.com/MagicBowen/microservice v0.0.0-20190429131659-99f0a915fd1f
 	github.com/coreos/etcd v3.3.12+incompatible // indirect
 	github.com/etcd-io/etcd v3.3.12+incompatible
 	github.com/gogo/protobuf v1.2.1 // indirect
