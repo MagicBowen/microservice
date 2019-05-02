@@ -40,6 +40,8 @@ replace golang.org/x/net v0.0.0-20190311183353-d8887717615a => github.com/golang
 
 replace golang.org/x/net v0.0.0-20180906233101-161cd47e91fd => github.com/golang/net v0.0.0-20180906233101-161cd47e91fd
 
+replace golang.org/x/net v0.0.0-20190424112056-4829fb13d2c6 => github.com/golang/net v0.0.0-20190424112056-4829fb13d2c6
+
 replace golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3 => github.com/golang/lint v0.0.0-20190313153728-d0100b6bd8b3
 
 replace golang.org/x/tools v0.0.0-20190311212946-11955173bddd => github.com/golang/tools v0.0.0-20190311212946-11955173bddd

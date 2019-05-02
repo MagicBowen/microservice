@@ -60,7 +60,8 @@ func (d *Discovery) Follow(serviceName string) error {
 		return nil
 	}
 	d.services[serviceName] = newService(d.getServiceKey(serviceName), d.client)
-	return d.services[serviceName].follow()
+	d.services[serviceName].follow()
+	return nil
 }
 
 func (d *Discovery) Drop(serviceName string) error {

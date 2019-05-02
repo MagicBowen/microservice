@@ -78,10 +78,22 @@ func (s *service) following(ch clientv3.WatchChan) {
 	}
 }
 
-func (s *service) follow() error {
+func (s *service) fetchInstances() {
+	if result, err := s.client.Get(context.Background(), s.key); err == nil {
+		for _, ev := range result.Kvs {
+			s.addInstance(newInstance(string(ev.Value)))
+		}
+	}
+}
+
+func (s *service) keepUpdate() {
 	ch := s.client.Watch(context.Background(), s.key, clientv3.WithPrefix())
 	go s.following(ch)
-	return nil
+}
+
+func (s *service) follow() {
+	s.fetchInstances()
+	s.keepUpdate()
 }
 
 func (s *service) drop() {

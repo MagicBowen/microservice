@@ -24,6 +24,10 @@ RUN git clone https://github.com/google/go-genproto.git $GOPATH/src/google.golan
 RUN cd $GOPATH/src/    
 RUN go install google.golang.org/grpc
 
+# fix git error when go mod download
+RUN git config --global http.sslVerify false
+RUN git config --global http.postBuffer 1048576000
+
 # Fetch dependencies first; they are less susceptible to change on every build
 # and will therefore be cached for speeding up the next build
 COPY ./go.mod ./go.sum ./
