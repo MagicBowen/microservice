@@ -68,5 +68,6 @@ reference:
 
 reference:
 - https://grpc.io/blog/loadbalancing/
+- https://github.com/grpc/grpc/blob/master/doc/load-balancing.md
 - https://segmentfault.com/a/1190000008672912
 - https://www.cnblogs.com/SmartLee/p/5161415.html
