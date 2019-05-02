@@ -1,7 +1,7 @@
 module entity-service
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190501150515-b439309485ea
+	github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190502233936-2423ae03b200
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect

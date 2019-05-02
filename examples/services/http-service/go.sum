@@ -2,6 +2,8 @@ cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMT
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190501150515-b439309485ea h1:kAA9uImVW0W230bjF+kWpkTGyjnqtL2xkgPjE/zWllo=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190501150515-b439309485ea/go.mod h1:egzEMke93et2ZT8Trokb/sNcyV7ymRxVnOejgtCP5X0=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190502233936-2423ae03b200 h1:3ijArqkzYJ7C1BZPBjVOLNoKY9KLW74m7PWxk+GI9Lo=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190502233936-2423ae03b200/go.mod h1:iFhJSjGJQS2blZCcoYA6xIcEaYCBsHcTVyXsULXJDhU=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/etcd v3.3.12+incompatible h1:pAWNwdf7QiT1zfaWyqCtNZQWCLByQyA3JrSQyuYAqnQ=
 github.com/coreos/etcd v3.3.12+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
