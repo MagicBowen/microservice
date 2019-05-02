@@ -11,3 +11,7 @@ func newInstance(address string) *instance {
 func (it *instance) getKey() string {
 	return it.address
 }
+
+func (it *instance) getAddress() string {
+	return it.address
+}

@@ -97,3 +97,12 @@ func (d *Discovery) InstanceOf(serviceName string, algoType LBType) (string, err
 
 	return service.getInstance(algoType)
 }
+
+func (d *Discovery) AllInstancesOf(serviceName string) ([]string, error) {
+	service, ok := d.services[serviceName]
+	if !ok {
+		return nil, errors.New("Service " + serviceName + " has not been followed")
+	}
+
+	return service.getAllInstances()
+}

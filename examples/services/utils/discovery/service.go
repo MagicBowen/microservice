@@ -44,9 +44,20 @@ func (s *service) getInstance(algoType LBType) (string, error) {
 		return "", errors.New("None available instance of service")
 	}
 	for _, it := range s.instances {
-		return it.address, nil
+		return it.getAddress(), nil
 	}
 	return "", errors.New("Internal error")
+}
+
+func (s *service) getAllInstances() ([]string, error) {
+	if len(s.instances) == 0 {
+		return nil, errors.New("None available instance of service")
+	}
+	var instances []string
+	for _, it := range s.instances {
+		instances = append(instances, it.getAddress())
+	}
+	return instances, nil
 }
 
 func (s *service) dealEtcdEvents(events []*clientv3.Event) {

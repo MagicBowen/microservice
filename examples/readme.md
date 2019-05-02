@@ -1,7 +1,7 @@
 ## TODO
 
 - [x]: entity service implement, using mongo
-- [ ]: http service implement, using redis
+- [x]: http service implement, using redis
 - [x]: put entity service and http service in docker
 - [x]: register and discovery of mongo and redis from etcd
 - [ ]: register and discovery of entity service from etcd
@@ -59,6 +59,13 @@ options ndots:0
 reference:
 - https://medium.com/@maxy_ermayank/service-registration-and-discovery-configuration-management-dffb15fc08a7
 - https://deaddesk.top/service-discovery-with-etcd/
-- https://www.cnblogs.com/sevenPP/p/8149890.html
-- http://ralphbupt.github.io/2017/05/04/etcd-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/
-- http://daizuozhuo.github.io/etcd-service-discovery/
+
+## Load Balance
+
+- server side LB
+- client side : in process
+- client side : out process (side car pattern)
+
+reference:
+- https://grpc.io/blog/loadbalancing/
+- 
