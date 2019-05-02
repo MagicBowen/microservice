@@ -62,10 +62,11 @@ reference:
 
 ## Load Balance
 
-- server side LB
-- client side : in process
-- client side : out process (side car pattern)
+- Proxy Model
+- Balancing-aware Client
+- External Load Balancing Service
 
 reference:
 - https://grpc.io/blog/loadbalancing/
-- 
+- https://segmentfault.com/a/1190000008672912
+- https://www.cnblogs.com/SmartLee/p/5161415.html

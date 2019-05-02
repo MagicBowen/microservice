@@ -7,6 +7,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/MagicBowen/microservice/examples/services/utils/discovery"
 	api "github.com/magicbowen/microservice/examples/services/api"
 	"google.golang.org/grpc"
 )
@@ -16,11 +17,16 @@ type RPC struct {
 	ec api.EntityClient
 }
 
-func (client *RPC) initial(address string) error {
-	var err error
-	client.cc, err = grpc.Dial(address, grpc.WithInsecure())
+func (client *RPC) initial(d *discovery.Discovery, targetServiceName string) error {
+	r, err := d.Resolver(targetServiceName)
 	if err != nil {
-		log.Fatalf("connect %s error: %v", address, err)
+		log.Fatalf("Discovery initial resolver for gRPC failed: %v", err)
+	}
+	b := grpc.RoundRobin(r)
+
+	client.cc, err = grpc.Dial("", grpc.WithInsecure(), grpc.WithBalancer(b))
+	if err != nil {
+		log.Fatalf("connect with load balance error: %v", err)
 		return err
 	}
 	client.ec = api.NewEntityClient(client.cc)

@@ -8,27 +8,29 @@ import (
 )
 
 var (
-	logFile = flag.String("log", "output.log", "Log file name")
+	logFile       = flag.String("log", "output.log", "Log file name")
+	etcdEndPoints = []string{"etcd1:2379", "etcd2:2379", "etcd3:2379"}
+)
+
+const (
+	servicePath       = "services"
+	entityServiceName = "entity-service"
+	serviceAddress    = ":8866"
 )
 
 func main() {
 	flag.Parse()
 	// initLogger(logFile)
 
-	d, _ := discovery.NewDiscovery([]string{"etcd1:2379", "etcd2:2379", "etcd3:2379"}, "services")
+	d, _ := discovery.NewDiscovery(etcdEndPoints, servicePath)
 	defer d.Stop()
-	d.Follow("entity-service")
-	entityServiceAddress, err := d.InstanceOf("entity-service", discovery.Random)
-	if err != nil {
-		log.Fatalf("Get instance of entity service failed: %v", err)
-	}
 
-	err = rpc.initial(entityServiceAddress)
+	err := rpc.initial(d, entityServiceName)
 	if err != nil {
 		log.Fatalf("gRPC init failed")
 		return
 	}
 	defer rpc.release()
 
-	initHTTPServer(":8866")
+	initHTTPServer(serviceAddress)
 }

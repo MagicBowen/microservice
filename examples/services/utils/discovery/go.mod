@@ -31,11 +31,11 @@ replace golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2 => github.com/gol
 replace golang.org/x/tools v0.0.0-20180221164845-07fd8470d635 => github.com/golang/tools v0.0.0-20180221164845-07fd8470d635
 
 require (
-	github.com/coreos/etcd v3.3.12+incompatible // indirect
+	github.com/coreos/etcd v3.3.12+incompatible
 	github.com/etcd-io/etcd v3.3.12+incompatible
 	github.com/gogo/protobuf v1.2.1 // indirect
 	github.com/golang/protobuf v1.3.1 // indirect
 	go.etcd.io/etcd v3.3.12+incompatible
-	golang.org/x/net v0.0.0-20190424112056-4829fb13d2c6 // indirect
-	google.golang.org/grpc v1.20.1 // indirect
+	golang.org/x/net v0.0.0-20190424112056-4829fb13d2c6
+	google.golang.org/grpc v1.20.1
 )

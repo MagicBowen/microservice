@@ -51,16 +51,24 @@ func (d *Discovery) getServiceKey(serviceName string) string {
 	return fmt.Sprintf("%s%s", concatPathOf(d.pathPrefix), concatPathOf(serviceName))
 }
 
-func (d *Discovery) Follow(serviceName string) error {
+func (d *Discovery) createService(serviceName string) (*service, error) {
 	if strings.TrimSpace(serviceName) == "" {
-		return errors.New("Illegal service name")
+		return nil, errors.New("Illegal service name")
 	}
-	_, ok := d.services[serviceName]
+	s, ok := d.services[serviceName]
 	if ok {
-		return nil
+		return s, nil
 	}
 	d.services[serviceName] = newService(d.getServiceKey(serviceName), d.client)
-	d.services[serviceName].follow()
+	return d.services[serviceName], nil
+}
+
+func (d *Discovery) Follow(serviceName string) error {
+	s, err := d.createService(serviceName)
+	if err != nil {
+		return err
+	}
+	s.follow()
 	return nil
 }
 
@@ -105,4 +113,12 @@ func (d *Discovery) AllInstancesOf(serviceName string) ([]string, error) {
 	}
 
 	return service.getAllInstances()
+}
+
+func (d *Discovery) Resolver(serviceName string) (*resolver, error) {
+	s, err := d.createService(serviceName)
+	if err != nil {
+		return nil, err
+	}
+	return s.getResolver()
 }

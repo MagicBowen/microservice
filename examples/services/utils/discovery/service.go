@@ -10,7 +10,6 @@ package discovery
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"go.etcd.io/etcd/clientv3"
@@ -60,9 +59,13 @@ func (s *service) getAllInstances() ([]string, error) {
 	return instances, nil
 }
 
+func (s *service) getResolver() (*resolver, error) {
+	return newResolver(s), nil
+}
+
 func (s *service) dealEtcdEvents(events []*clientv3.Event) {
 	for _, ev := range events {
-		fmt.Printf("etcd: [%s] %q : %q\n", ev.Type, ev.Kv.Key, ev.Kv.Value)
+		log.Printf("etcd: [%s] %q : %q\n", ev.Type, ev.Kv.Key, ev.Kv.Value)
 		it := newInstance(string(ev.Kv.Value))
 		switch ev.Type {
 		case clientv3.EventTypePut:
@@ -89,16 +92,23 @@ func (s *service) following(ch clientv3.WatchChan) {
 	}
 }
 
-func (s *service) fetchInstances() {
-	if result, err := s.client.Get(context.Background(), s.key); err == nil {
-		for _, ev := range result.Kvs {
-			s.addInstance(newInstance(string(ev.Value)))
-		}
+func (s *service) fetchInstances() error {
+	result, err := s.client.Get(context.Background(), s.key)
+	if err != nil {
+		return err
 	}
+	for _, ev := range result.Kvs {
+		s.addInstance(newInstance(string(ev.Value)))
+	}
+	return nil
+}
+
+func (s *service) watchUpdate() clientv3.WatchChan {
+	return s.client.Watch(context.Background(), s.key, clientv3.WithPrefix())
 }
 
 func (s *service) keepUpdate() {
-	ch := s.client.Watch(context.Background(), s.key, clientv3.WithPrefix())
+	ch := s.watchUpdate()
 	go s.following(ch)
 }
 
