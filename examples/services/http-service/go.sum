@@ -6,6 +6,8 @@ github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-2019
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190502233936-2423ae03b200/go.mod h1:iFhJSjGJQS2blZCcoYA6xIcEaYCBsHcTVyXsULXJDhU=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503064827-81bce1aaf98c h1:z/87BGClD43C1ZyXXMB6xSWEDa2iRZvmcb234a4f4+I=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503064827-81bce1aaf98c/go.mod h1:buxaAaEM8QcOJJIXi1T3xYeCeHqBWLtj/KG5vSJPTeY=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503112730-016a7b1a2066 h1:gbq4SD/3E6V8TceA7videM7ay8YhCB34m3p+OYY3pCk=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503112730-016a7b1a2066/go.mod h1:yWgkOoIELZZQlJJ9qCDWpTXrt+pWUW3Dq5QxT+u7/ko=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/etcd v3.3.12+incompatible h1:pAWNwdf7QiT1zfaWyqCtNZQWCLByQyA3JrSQyuYAqnQ=
 github.com/coreos/etcd v3.3.12+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
@@ -57,6 +59,8 @@ github.com/labstack/gommon v0.2.8/go.mod h1:/tj9csK2iPSBvn+3NLM9e52usepMtrd5ilFY
 github.com/lyft/protoc-gen-validate v0.0.13/go.mod h1:XbGvPuh87YZc5TdIa2/I4pLk0QoUACkjt2znoq26NVQ=
 github.com/magicbowen/microservice v0.0.0-20190415042554-58fe9779d58c h1:7INhtEyNDlrVjkcH5E+EUNMIfeXYCgDuuQ6t2L8mT0U=
 github.com/magicbowen/microservice v0.0.0-20190415042554-58fe9779d58c/go.mod h1:HDCe9JJnljf9kb+JdVaEYNxsbfi4pWf10rq1IFqcUuo=
+github.com/magicbowen/microservice v0.0.0-20190503112730-016a7b1a2066 h1:P7J0JtRtKaCyKBm82lBmNe9nDGGPLyUw9mlEjeTDXz0=
+github.com/magicbowen/microservice v0.0.0-20190503112730-016a7b1a2066/go.mod h1:HDCe9JJnljf9kb+JdVaEYNxsbfi4pWf10rq1IFqcUuo=
 github.com/mattn/go-colorable v0.0.9 h1:UVL0vNpWh04HeJXV0KLcaT7r06gOH2l4OW6ddYRUIY4=
 github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaOChaDxuIBZU=
 github.com/mattn/go-isatty v0.0.4 h1:bnP0vzxcAdeI1zdubAl5PjU6zsERjGZb7raWodagDYs=

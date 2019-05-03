@@ -1,9 +1,9 @@
 module http-service
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503064827-81bce1aaf98c
+	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503112730-016a7b1a2066
 	github.com/labstack/echo/v4 v4.0.0
-	github.com/magicbowen/microservice v0.0.0-20190415042554-58fe9779d58c
+	github.com/magicbowen/microservice v0.0.0-20190503112730-016a7b1a2066
 	google.golang.org/grpc v1.20.1
 )
 

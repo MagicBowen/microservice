@@ -35,7 +35,7 @@ func main() {
 	}
 	ec := api.NewEntityClient(client)
 
-	time.Sleep(5 * time.Second)
+	// time.Sleep(5 * time.Second)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
