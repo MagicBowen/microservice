@@ -1,6 +1,8 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503102556-1cac706d7b12 h1:rVNULWaV/SlHc/enR/iBN4Hvg8u3wi/7KVVteSkOBK8=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503102556-1cac706d7b12/go.mod h1:yWgkOoIELZZQlJJ9qCDWpTXrt+pWUW3Dq5QxT+u7/ko=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503105904-27102d9db223 h1:6YDjq1evaqxOnBAORKy9WTJ5EaSQLKHpcG12FUvXoQY=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503105904-27102d9db223/go.mod h1:yWgkOoIELZZQlJJ9qCDWpTXrt+pWUW3Dq5QxT+u7/ko=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/etcd v3.3.12+incompatible h1:pAWNwdf7QiT1zfaWyqCtNZQWCLByQyA3JrSQyuYAqnQ=
 github.com/coreos/etcd v3.3.12+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
@@ -38,6 +40,8 @@ github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+o
 github.com/lyft/protoc-gen-validate v0.0.13/go.mod h1:XbGvPuh87YZc5TdIa2/I4pLk0QoUACkjt2znoq26NVQ=
 github.com/magicbowen/microservice v0.0.0-20190503102556-1cac706d7b12 h1:pz5HZuzPEGOACbA+9nGhTry1OH3Yn1QGvgsI6ERCpwI=
 github.com/magicbowen/microservice v0.0.0-20190503102556-1cac706d7b12/go.mod h1:HDCe9JJnljf9kb+JdVaEYNxsbfi4pWf10rq1IFqcUuo=
+github.com/magicbowen/microservice v0.0.0-20190503105904-27102d9db223 h1:/7Aahuj4ZIFiKI4mAcsvsL/67S85URNUs0C1PAw4CsA=
+github.com/magicbowen/microservice v0.0.0-20190503105904-27102d9db223/go.mod h1:HDCe9JJnljf9kb+JdVaEYNxsbfi4pWf10rq1IFqcUuo=
 go.etcd.io/etcd v3.3.12+incompatible h1:V6PRYRGpU4k5EajJaaj/GL3hqIdzyPnBU8aPUp+35yw=
 go.etcd.io/etcd v3.3.12+incompatible/go.mod h1:yaeTdrJi5lOmYerz05bd8+V7KubZs8YSFZfzsF9A6aI=
 honnef.co/go/tools v0.0.0-20190102054323-c2f93a96b099/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
