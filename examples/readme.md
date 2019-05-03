@@ -1,11 +1,16 @@
 ## TODO
 
-- [x]: entity service implement, using mongo
-- [x]: http service implement, using redis
+- [x]: http service implementation
+- [x]: register http service to traefik
+- [x]: setup etcd cluster
+- [x]: traefik fetch http service from etcd | file | docker
+- [x]: http serfice use gRPC to fetch entity
+- [x]: entity service implementation, using mongo
+- [x]: entity service using redis
 - [x]: put entity service and http service in docker
 - [x]: register and discovery of mongo and redis from etcd
 - [x]: register and discovery of entity service from etcd
-- [ ]: LB to entity service
+- [x]: LB to entity service
 - [ ]: modify api to graphiz
 - [ ]: concurrent node compete to the master using etcd
 - [ ]: logstash log to kafka (spike fluentD)
