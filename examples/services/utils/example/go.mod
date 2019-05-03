@@ -1,7 +1,7 @@
 module example
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503105904-27102d9db223
+	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503110355-5b28858eb41a
 	github.com/magicbowen/microservice v0.0.0-20190503105904-27102d9db223
 	google.golang.org/grpc v1.20.1
 )

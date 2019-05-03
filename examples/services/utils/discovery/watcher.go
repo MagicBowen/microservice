@@ -14,7 +14,7 @@ type watcher struct {
 }
 
 func newWatcher(service *service) *watcher {
-	fmt.Printf("watch created")
+	fmt.Printf("watch created\n")
 	return &watcher{service: service, isInitialized: false}
 }
 
@@ -22,6 +22,7 @@ func (w *watcher) Close() {
 }
 
 func (w *watcher) getInitializedUpates() ([]*naming.Update, bool) {
+	fmt.Println("getInitializedUpates")
 	err := w.service.fetchInstances()
 	if err != nil {
 		log.Printf("watch fetch service instances failed: %v", err)
@@ -33,6 +34,7 @@ func (w *watcher) getInitializedUpates() ([]*naming.Update, bool) {
 		log.Printf("watch get service instances(%d) failed: %v", len(addrs), err)
 		return nil, false
 	}
+	fmt.Printf("getInitializedUpates get addrs: %v\n", addrs)
 	updates := make([]*naming.Update, len(addrs))
 	for i := range addrs {
 		updates[i] = &naming.Update{Op: naming.Add, Addr: addrs[i]}
@@ -59,7 +61,7 @@ func (w *watcher) getWatchUpdates() ([]*naming.Update, error) {
 }
 
 func (w *watcher) Next() ([]*naming.Update, error) {
-	fmt.Printf("watch next has been invoked")
+	fmt.Printf("watch next has been invoked\n")
 	if !w.isInitialized {
 		w.isInitialized = true
 		updates, ok := w.getInitializedUpates()
