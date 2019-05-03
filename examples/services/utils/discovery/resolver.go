@@ -9,7 +9,7 @@ import (
 type resolver struct{ service *service }
 
 func newResolver(service *service) *resolver {
-	fmt.Printf("resolver created, service is %s", service.key)
+	fmt.Printf("resolver created, service is %s\n", service.key)
 	return &resolver{service: service}
 }
 
