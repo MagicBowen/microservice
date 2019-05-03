@@ -4,6 +4,8 @@ github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-2
 github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190501150515-b439309485ea/go.mod h1:v/6fI6ZOa1Rvuqp5vcWxnkh9nNQbY962bSwKPVsvY1Y=
 github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190502233936-2423ae03b200 h1:5yRKgxAJuOAVgm5/cesEryCwMU6iq0tn5RJX6fN92c4=
 github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190502233936-2423ae03b200/go.mod h1:v/6fI6ZOa1Rvuqp5vcWxnkh9nNQbY962bSwKPVsvY1Y=
+github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190503064827-81bce1aaf98c h1:/ZNO2K2SRobU62OuaN/exRacaQPU0/RRs3xGjIYPmyQ=
+github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190503064827-81bce1aaf98c/go.mod h1:Ime5j2DThomm5em9kaaJ9uV8DIjyK4MK8QnQ6SPm/Nc=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/etcd v3.3.12+incompatible h1:pAWNwdf7QiT1zfaWyqCtNZQWCLByQyA3JrSQyuYAqnQ=
 github.com/coreos/etcd v3.3.12+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=

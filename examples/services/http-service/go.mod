@@ -1,7 +1,7 @@
 module http-service
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190502233936-2423ae03b200
+	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503064827-81bce1aaf98c
 	github.com/labstack/echo/v4 v4.0.0
 	github.com/magicbowen/microservice v0.0.0-20190415042554-58fe9779d58c
 	google.golang.org/grpc v1.20.1
@@ -38,5 +38,3 @@ replace golang.org/x/tools v0.0.0-20180221164845-07fd8470d635 => github.com/gola
 replace golang.org/x/text v0.3.0 => github.com/golang/text v0.3.0
 
 replace golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2 => github.com/golang/crypto v0.0.0-20190308221718-c2843e01d9a2
-
-replace go.etcd.io/etcd v3.3.12 => github.com/etcd-io/etcd v3.3.12

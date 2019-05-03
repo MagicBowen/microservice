@@ -13,7 +13,7 @@ type watcher struct {
 }
 
 func newWatcher(service *service) *watcher {
-	return &watcher{service: service}
+	return &watcher{service: service, isInitialized: false}
 }
 
 func (w *watcher) Close() {
@@ -22,16 +22,19 @@ func (w *watcher) Close() {
 func (w *watcher) getInitializedUpates() ([]*naming.Update, bool) {
 	err := w.service.fetchInstances()
 	if err != nil {
+		log.Printf("watch fetch service instances failed: %v", err)
 		return nil, false
 	}
 	var addrs []string
 	addrs, err = w.service.getAllInstances()
 	if err != nil || len(addrs) == 0 {
+		log.Printf("watch get service instances(%d) failed: %v", len(addrs), err)
 		return nil, false
 	}
 	updates := make([]*naming.Update, len(addrs))
 	for i := range addrs {
 		updates[i] = &naming.Update{Op: naming.Add, Addr: addrs[i]}
+		log.Printf("watch add new address(%s) to updates", addrs[i])
 	}
 	return updates, true
 }
