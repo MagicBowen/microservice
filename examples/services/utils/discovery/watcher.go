@@ -13,6 +13,7 @@ type watcher struct {
 }
 
 func newWatcher(service *service) *watcher {
+	fmt.printf("watch created")
 	return &watcher{service: service, isInitialized: false}
 }
 
@@ -57,6 +58,7 @@ func (w *watcher) getWatchUpdates() ([]*naming.Update, error) {
 }
 
 func (w *watcher) Next() ([]*naming.Update, error) {
+	fmt.printf("watch next has been invoked")
 	if !w.isInitialized {
 		w.isInitialized = true
 		updates, ok := w.getInitializedUpates()
