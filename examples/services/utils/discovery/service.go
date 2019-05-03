@@ -93,7 +93,7 @@ func (s *service) following(ch clientv3.WatchChan) {
 }
 
 func (s *service) fetchInstances() error {
-	result, err := s.client.Get(context.Background(), s.key)
+	result, err := s.client.Get(context.Background(), s.key, clientv3.WithPrefix())
 	if err != nil {
 		return err
 	}

@@ -35,6 +35,8 @@ func main() {
 	}
 	ec := api.NewEntityClient(client)
 
+	time.Sleep(5 * time.Second)
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 	u, err2 := ec.GetUser(ctx, &api.UserRequest{Id: 1})
