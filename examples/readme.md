@@ -4,7 +4,8 @@
 - [x]: http service implement, using redis
 - [x]: put entity service and http service in docker
 - [x]: register and discovery of mongo and redis from etcd
-- [ ]: register and discovery of entity service from etcd
+- [x]: register and discovery of entity service from etcd
+- [ ]: LB to entity service
 - [ ]: modify api to graphiz
 - [ ]: concurrent node compete to the master using etcd
 - [ ]: logstash log to kafka (spike fluentD)
@@ -71,3 +72,4 @@ reference:
 - https://github.com/grpc/grpc/blob/master/doc/load-balancing.md
 - https://segmentfault.com/a/1190000008672912
 - https://www.cnblogs.com/SmartLee/p/5161415.html
+- https://github.com/liyue201/grpc-lb
