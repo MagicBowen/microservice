@@ -25,12 +25,14 @@ func (w *watcher) getInitializedUpates() ([]*naming.Update, bool) {
 	fmt.Println("getInitializedUpates")
 	err := w.service.fetchInstances()
 	if err != nil {
+		fmt.Printf("watch fetch service instances failed: %v", err)
 		log.Printf("watch fetch service instances failed: %v", err)
 		return nil, false
 	}
 	var addrs []string
 	addrs, err = w.service.getAllInstances()
 	if err != nil || len(addrs) == 0 {
+		fmt.Printf("watch fetch service instances failed: %v", err)
 		log.Printf("watch get service instances(%d) failed: %v", len(addrs), err)
 		return nil, false
 	}
@@ -39,6 +41,7 @@ func (w *watcher) getInitializedUpates() ([]*naming.Update, bool) {
 	for i := range addrs {
 		updates[i] = &naming.Update{Op: naming.Add, Addr: addrs[i]}
 		log.Printf("watch add new address(%s) to updates", addrs[i])
+		fmt.Printf("watch fetch service instances failed: %v", err)
 	}
 	return updates, true
 }

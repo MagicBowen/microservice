@@ -7,6 +7,8 @@ github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-2019
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503110355-5b28858eb41a/go.mod h1:yWgkOoIELZZQlJJ9qCDWpTXrt+pWUW3Dq5QxT+u7/ko=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503110948-18f1fe676aac h1:nQfc3DxB5FelXe+C+EH8S9hyko4B1E+gfNOffg2ibeo=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503110948-18f1fe676aac/go.mod h1:yWgkOoIELZZQlJJ9qCDWpTXrt+pWUW3Dq5QxT+u7/ko=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503111520-de59432488e2 h1:sd/YqKDw2KXpAPWaW06jVAYBTbwUAty3secTqoEqBFQ=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190503111520-de59432488e2/go.mod h1:yWgkOoIELZZQlJJ9qCDWpTXrt+pWUW3Dq5QxT+u7/ko=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/coreos/etcd v3.3.12+incompatible h1:pAWNwdf7QiT1zfaWyqCtNZQWCLByQyA3JrSQyuYAqnQ=
 github.com/coreos/etcd v3.3.12+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
