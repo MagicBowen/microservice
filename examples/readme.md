@@ -72,6 +72,138 @@ reference:
 - Balancing-aware Client
 - External Load Balancing Service
 
+### LB of gRPC 
+
+```sh
+	r, err := d.Resolver(targetServiceName)
+	if err != nil {
+		log.Fatalf("Discovery initial resolver for gRPC failed: %v", err)
+	}
+	b := grpc.RoundRobin(r)
+
+	client.cc, err = grpc.Dial("", grpc.WithInsecure(), grpc.WithBalancer(b))
+```
+
+```sh
+// Deprecated: please use package balancer/roundrobin.
+func RoundRobin(r naming.Resolver) Balancer {
+	return &roundRobin{r: r}
+}
+```
+
+```sh
+// Deprecated: please use package resolver.
+type Operation uint8
+
+const (
+	// Add indicates a new address is added.
+	Add Operation = iota
+	// Delete indicates an existing address is deleted.
+	Delete
+)
+
+// Update defines a name resolution update. Notice that it is not valid having both
+// empty string Addr and nil Metadata in an Update.
+//
+// Deprecated: please use package resolver.
+type Update struct {
+	// Op indicates the operation of the update.
+	Op Operation
+	// Addr is the updated address. It is empty string if there is no address update.
+	Addr string
+	// Metadata is the updated metadata. It is nil if there is no metadata update.
+	// Metadata is not required for a custom naming implementation.
+	Metadata interface{}
+}
+//
+// Resolver creates a Watcher for a target to track its resolution changes.
+//
+// Deprecated: please use package resolver.
+type Resolver interface {
+	// Resolve creates a Watcher for target.
+	Resolve(target string) (Watcher, error)
+}
+
+// Watcher watches for the updates on the specified target.
+//
+// Deprecated: please use package resolver.
+type Watcher interface {
+	// Next blocks until an update or error happens. It may return one or more
+	// updates. The first call should get the full set of the results. It should
+	// return an error if and only if Watcher cannot recover.
+	Next() ([]*Update, error)
+	// Close closes the Watcher.
+	Close()
+}
+```
+
+```sh
+type Balancer interface {
+	// Start does the initialization work to bootstrap a Balancer. For example,
+	// this function may start the name resolution and watch the updates. It will
+	// be called when dialing.
+	Start(target string, config BalancerConfig) error
+	// Up informs the Balancer that gRPC has a connection to the server at
+	// addr. It returns down which is called once the connection to addr gets
+	// lost or closed.
+	// TODO: It is not clear how to construct and take advantage of the meaningful error
+	// parameter for down. Need realistic demands to guide.
+	Up(addr Address) (down func(error))
+	// Get gets the address of a server for the RPC corresponding to ctx.
+	// i) If it returns a connected address, gRPC internals issues the RPC on the
+	// connection to this address;
+	// ii) If it returns an address on which the connection is under construction
+	// (initiated by Notify(...)) but not connected, gRPC internals
+	//  * fails RPC if the RPC is fail-fast and connection is in the TransientFailure or
+	//  Shutdown state;
+	//  or
+	//  * issues RPC on the connection otherwise.
+	// iii) If it returns an address on which the connection does not exist, gRPC
+	// internals treats it as an error and will fail the corresponding RPC.
+	//
+	// Therefore, the following is the recommended rule when writing a custom Balancer.
+	// If opts.BlockingWait is true, it should return a connected address or
+	// block if there is no connected address. It should respect the timeout or
+	// cancellation of ctx when blocking. If opts.BlockingWait is false (for fail-fast
+	// RPCs), it should return an address it has notified via Notify(...) immediately
+	// instead of blocking.
+	//
+	// The function returns put which is called once the rpc has completed or failed.
+	// put can collect and report RPC stats to a remote load balancer.
+	//
+	// This function should only return the errors Balancer cannot recover by itself.
+	// gRPC internals will fail the RPC if an error is returned.
+	Get(ctx context.Context, opts BalancerGetOptions) (addr Address, put func(), err error)
+	// Notify returns a channel that is used by gRPC internals to watch the addresses
+	// gRPC needs to connect. The addresses might be from a name resolver or remote
+	// load balancer. gRPC internals will compare it with the existing connected
+	// addresses. If the address Balancer notified is not in the existing connected
+	// addresses, gRPC starts to connect the address. If an address in the existing
+	// connected addresses is not in the notification list, the corresponding connection
+	// is shutdown gracefully. Otherwise, there are no operations to take. Note that
+	// the Address slice must be the full list of the Addresses which should be connected.
+	// It is NOT delta.
+	Notify() <-chan []Address
+	// Close shuts down the balancer.
+	Close() error
+}
+```
+
+```sh
+type roundRobin struct {
+	r      naming.Resolver
+	w      naming.Watcher
+	addrs  []*addrInfo // all the addresses the client should potentially connect
+	mu     sync.Mutex
+	addrCh chan []Address // the channel to notify gRPC internals the list of addresses the client should connect to.
+	next   int            // index of the next address to return for Get()
+	waitCh chan struct{}  // the channel to block when there is no connected address available
+	done   bool           // The Balancer is closed.
+}
+```
+
+gRPC通过和balance交互获得可用链接地址。首先gRPC在dial的时候调用balance.Start，然后使用balance.Notify()获得一个地址更新的chan。每次有地址更新则通过chan获得新的地址全集，和内部持有的已经链接的地址进行对比。新增的地址调用balance.Up将连接状态修改为connected。不再存在的地址调用之前获得down方法修改地址状态为非连接状态。每次gRPC请求使用的具体地址调用balance.Get进行获取。如果balance.Get没有可用连接态的地址，则根据参数BalancerGetOptions决定是否阻塞Get函数。如果阻塞的话，当下次有新地址Up的时候会采用一个chan (waitCh)通知Get取消阻塞。
+
 reference:
 - https://grpc.io/blog/loadbalancing/
 - https://github.com/grpc/grpc/blob/master/doc/load-balancing.md
