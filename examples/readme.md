@@ -18,7 +18,7 @@
 - [ ]: metrics in promotheus
 - [ ]: distributed trace
 - [ ]: CD pipeline
-- [ ]: data analyzing using kafka
+- [ ]: data analyzing using spark
 - [ ]: some job using FaaS: https://cloud.tencent.com/developer/article/1365541
 - [ ]: move docker to K8S
 
