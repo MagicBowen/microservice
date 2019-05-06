@@ -11,7 +11,7 @@
 - [x]: register and discovery of mongo and redis from etcd
 - [x]: register and discovery of entity service from etcd
 - [x]: LB to entity service
-- [ ]: modify api to graphiz
+- [ ]: Use graphQL
 - [ ]: concurrent node compete to the master using etcd
 - [ ]: logstash log to kafka (spike fluentD)
 - [ ]: search log from elasticsearch
@@ -61,6 +61,16 @@ options ndots:0
 经过测试，内嵌DNS中一个service name对应了多个container的IP的时候，做DNS解析请求获得service name的时候，DNS服务器总是返回最后一个有效的IP地址。
 
 ## service registration & discovery
+
+registration：
+- self registration
+- registrator
+
+discovery：
+- server side
+- client side
+	- in client
+	- out client
 
 reference:
 - https://medium.com/@maxy_ermayank/service-registration-and-discovery-configuration-management-dffb15fc08a7
@@ -210,3 +220,15 @@ reference:
 - https://segmentfault.com/a/1190000008672912
 - https://www.cnblogs.com/SmartLee/p/5161415.html
 - https://github.com/liyue201/grpc-lb
+
+## GraphQL
+
+- 标准化了协议的定义
+- 按需返回查询数据
+- 基于强类型，改善了协作方式和工具（生成文档、编辑器、schema校验、、、）
+
+reference:
+- https://graphql.org/
+- https://graphql.github.io/graphql-spec/
+- https://graphql.org/code/
+- https://www.infoq.cn/article/LVQGuC3vQX-T3PpVCkHt
