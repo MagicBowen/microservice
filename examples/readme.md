@@ -12,9 +12,9 @@
 - [x]: register and discovery of entity service from etcd
 - [x]: LB to entity service
 - [ ]: Use graphQL
-- [ ]: logstash log to ELK (spike fluentD)
-- [ ]: metrics in promotheus
+- [x]: logstash log to ELK (spike fluentD)
 - [ ]: distributed trace
+- [ ]: metrics in promotheus
 - [ ]: entity service use mongo to publish entity event
 - [ ]: event services compete to deal msgs in kafka
 - [ ]: CD pipeline
