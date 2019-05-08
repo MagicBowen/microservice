@@ -243,7 +243,27 @@ reference:
 - fluentd or logpout to kafka, logstash receive from kafka
 - kibana/ grafana for dashboard
 
+syslog：
+syslog是网络上各种设备将日志收集到日志服务器的一种数据协议，它几乎被所有的网络设备支持，并且能够记录多种事件类型的日志消息，支持syslog的设备常见的有路由器、交换机、打印机等等，甚至unix-like的服务器也可以支持产生syslog消息，用以记录用户的登录、防火墙事件、apache或者nginx access日志等。
+目前有两个syslog RFC标准RFC 3164、RFC 5424，两者的主要区别在于数据的格式不同.Syslog包分为3个部分，PRI, HEADER,以及MSG，总长度不能超过1024个字节.
+主流的syslog工具有四种syslogd[RFC 3164]、sysklogd[RFC 5424]、syslog-ng、rsyslog，前两种的是系统组件，后两种是最近兴起的开源工具，syslog-ng、rsyslog可以兼容syslogd、sysklogd发送过来的数据，支持各种syslog协议数据的格式化、过滤等处理，比如可以定义数据的时间格式、按照syslog数据中任意部分过滤数据以及重定向输出到远端等。
+syslog设备依据两个重要的文件：/etc/syslogd守护进程和/etc/syslog.conf配置文件。通常情况下，多数syslog信息被写到/var/adm或/var/log目录下的信息文件中(messages.*)。一个典型的syslog记录包括生成程序的名字和一个文本信息。它还包括一个设备和一个优先级范围。
+
+config a syslog server : https://robinle.github.io/docker/2017/01/05/Docker-rsyslog-logstash/
+
 ## distributed trace
+
+concept：
+- Trace: TranceID
+- Span: TpanID, Parent Span ID
+- Annotation
+
+standard:
+- OpenTrace:
+
+reference：
+- Dapper: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36356.pdf
+
 
 
 ## metrics
