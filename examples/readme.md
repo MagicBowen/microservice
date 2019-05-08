@@ -21,6 +21,9 @@
 - [ ]: data analyzing using spark
 - [ ]: some job using FaaS: https://cloud.tencent.com/developer/article/1365541
 - [ ]: move docker to K8S
+- [ ]: API by swagger
+- [ ]: Contract test
+- [ ]: mock server
 
 ## network
 
