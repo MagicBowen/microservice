@@ -67,7 +67,7 @@ options ndots:0
 
 registration：
 - self registration
-- registrator
+- by others: eg. registrator
 
 discovery：
 - server side
@@ -235,3 +235,21 @@ reference:
 - https://graphql.github.io/graphql-spec/
 - https://graphql.org/code/
 - https://www.infoq.cn/article/LVQGuC3vQX-T3PpVCkHt
+
+## logs
+
+- elk
+- logstash to elasticsearch
+- fluentd or logpout to kafka, logstash receive from kafka
+- kibana/ grafana for dashboard
+
+## distributed trace
+
+
+## metrics
+
+
+## MQ
+
+
+## distributed lock
