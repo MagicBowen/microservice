@@ -144,7 +144,7 @@ func (s *Service) keepAlive() {
 				s.revoke()
 				return
 			}
-			log.Printf("received reply from service: %s, ttl:%d", s.name, ka.TTL)
+			// log.Printf("received reply from service: %s, ttl:%d", s.name, ka.TTL)
 		}
 	}
 }
