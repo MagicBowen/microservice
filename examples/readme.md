@@ -12,11 +12,11 @@
 - [x]: register and discovery of entity service from etcd
 - [x]: LB to entity service
 - [ ]: Use graphQL
-- [ ]: concurrent node compete to the master using etcd
-- [ ]: logstash log to kafka (spike fluentD)
-- [ ]: search log from elasticsearch
+- [ ]: logstash log to ELK (spike fluentD)
 - [ ]: metrics in promotheus
 - [ ]: distributed trace
+- [ ]: entity service use mongo to publish entity event
+- [ ]: event services compete to deal msgs in kafka
 - [ ]: CD pipeline
 - [ ]: data analyzing using spark
 - [ ]: some job using FaaS: https://cloud.tencent.com/developer/article/1365541

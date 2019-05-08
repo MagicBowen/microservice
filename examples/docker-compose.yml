@@ -12,7 +12,7 @@ services:
       - "80:80"         # The HTTP port
       - "8080:8080"     # The Web UI (enabled by --api)
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
       - $PWD/traefik/traefik.toml:/etc/traefik/traefik.toml
       - $PWD/traefik/rules.toml:/etc/traefik/rules.toml
       # - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
@@ -112,6 +112,7 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       ELASTIC_PASSWORD: changeme
+      LOGSPOUT: ignore        
     networks:
       - microservices
 
@@ -124,14 +125,30 @@ services:
       - ./elastic/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./elastic/logstash/pipeline:/usr/share/logstash/pipeline:ro
     ports:
-      - "5000:5000"
-      - "9600:9600"
+      - "5000:5000/udp"
+      - "5000:5000/tcp"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LOGSPOUT: ignore
     networks:
       - microservices
     depends_on:
       - elasticsearch
+
+  logspout:
+    image: bekt/logspout-logstash
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      ROUTE_URIS: logstash://logstash:5000
+      DEBUG: 1
+      LOGSPOUT: ignore
+    ports:
+      - "8090:80"
+    networks:
+      - microservices
+    depends_on:
+      - logstash
 
   kibana:
     build:
@@ -142,7 +159,9 @@ services:
       - ./elastic/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     ports:
       - "5601:5601"
+    environment:
+      LOGSPOUT: ignore      
     networks:
       - microservices
     depends_on:
-      - elasticsearch      
+      - elasticsearch
