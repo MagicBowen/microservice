@@ -19,11 +19,12 @@
 - [ ]: event services compete to deal msgs in kafka
 - [ ]: CD pipeline
 - [ ]: data analyzing using spark
-- [ ]: some job using FaaS: https://cloud.tencent.com/developer/article/1365541
+- [ ]: stream using flink
+- [ ]: some job using FaaS: https://cloud.tencent.com/developer/article/1365541 （spike Knative）
 - [ ]: move docker to K8S
 - [ ]: API by swagger
-- [ ]: Contract test
-- [ ]: mock server
+- [ ]: Contract Test
+- [ ]: Mock Server
 
 ## network
 
@@ -254,20 +255,84 @@ config a syslog server : https://robinle.github.io/docker/2017/01/05/Docker-rsys
 ## distributed trace
 
 concept：
-- Trace: TranceID
-- Span: TpanID, Parent Span ID
-- Annotation
+- Trace: The description of a transaction as it moves through a distributed system. (TraceID)
+- Span: A named, timed operation representing a piece of the workflow. Spans accept key:value tags as well as fine-grained, timestamped, structured logs attached to the particular span instance.
+	- An operation name
+	- A start timestamp and finish timestamp
+	- A set of key:value span Tags
+	- A set of key:value span Logs
+	A SpanContext
 
-standard:
-- OpenTrace:
+	- References between Spans
+		- ChildOf：In a ChildOf reference, the parent Span depends on the child Span in some capacity. 
+		- FollowsFrom：Some parent Spans do not depend in any way on the result of their child Spans. 
+- SpanContext: The span context contains the trace identifier, span identifier, and any other data that the tracing system needs to propagate to the downstream service
+	- An implementation-dependent state to refer to the distinct span within a trace,i.e., the implementing Tracer’s definition of spanID and traceID
+	- Any Baggage Items
+		- These are key:value pairs that cross process-boundaries.
+		- These may be useful to have some data available for access throughout the trace.
+
+examples:
+
+```
+Example Span:
+    t=0            operation name: db_query               t=x 
+
+     +-----------------------------------------------------+
+     | · · · · · · · · · ·    Span     · · · · · · · · · · |
+     +-----------------------------------------------------+
+
+Tags:
+- db.instance:"jdbc:mysql://127.0.0.1:3306/customers
+- db.statement: "SELECT * FROM mytable WHERE foo='bar';"
+
+Logs:
+- message:"Can't connect to mysql server on '127.0.0.1'(10061)"
+
+SpanContext:
+- trace_id:"abc123"
+- span_id:"xyz789"
+- Baggage Items:
+  - special_id:"vsid1738"
+```
+
+speciatin:
+- OpenTrace: https://opentracing.io/specification/
+- specification: https://github.com/opentracing/specification/
+- 规范中文版本：https://github.com/opentracing-contrib/opentracing-specification-zh
+- https://github.com/opentracing/specification/blob/master/semantic_conventions.md
+
+tools:
+- Google: Dapper
+- Twitter: Zipkin , OpenZipkin(scala, special RPC)
+- Ubber: Jaeger
+- Alibaba: EagleEye
+- Elastic APM : https://www.elastic.co/guide/en/apm/agent/index.html 
 
 reference：
 - Dapper: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36356.pdf
+- EagleEys: https://zhuanlan.zhihu.com/p/31324360
+- diff: https://riboseyim.github.io/2018/05/18/DevOps-OpenTracing/
+- plugin: https://github.com/opentracing-contrib/
+- tutorial: - https://github.com/yurishkuro/opentracing-tutorial
+- https://www.jaegertracing.io/docs/1.11/getting-started/
+- https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941
+- https://github.com/jaegertracing/jaeger/tree/master/examples/hotrod
 
-
+TODO:
+- [ ]: Launch Jaeger Agent
+- [ ]: Launch Jaeger Collector with ES
+- [ ]: Launch Jaeger UI
+- [ ]: Trace Traefik
+- [ ]: Trace Http Service
+- [ ]: Trace gRPC
+- [ ]: Trace MongoDB
+- [ ]: Trace Redis
 
 ## metrics
 
+reference:
+- Skywaling: https://github.com/apache/skywalking
 
 ## MQ
 
