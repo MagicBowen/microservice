@@ -1,6 +1,8 @@
 ## jaeger
 
-### docker
+### quick start
+
+#### docker
 
 Run jaeger in storage of memory:
 
@@ -8,7 +10,7 @@ Run jaeger in storage of memory:
 docker run -d -p6831:6831/udp -p16686:16686 --name jaeger jaegertracing/all-in-one:latest
 ```
 
-### example
+#### example
 
 ```sh
 docker run \
@@ -19,6 +21,49 @@ docker run \
   -p8080-8083:8080-8083 \
   jaegertracing/example-hotrod:latest \
   all
+```
+
+### manual setup
+
+#### Jaeger Collector
+
+```sh
+docker run \
+  -e SPAN_STORAGE_TYPE=elasticsearch \
+  jaegertracing/jaeger-collector:1.11 \
+  --help
+```
+
+```sh
+docker run \
+  -e SPAN_STORAGE_TYPE=elasticsearch \
+  -e ES_SERVER_URLS=<...> \
+  jaegertracing/jaeger-collector:1.11
+
+```
+
+#### Jaeger UI
+
+```sh
+docker run -d --rm \
+  -p 16686:16686 \
+  -p 16687:16687 \
+  -e SPAN_STORAGE_TYPE=elasticsearch \
+  -e ES_SERVER_URLS=http://<ES_SERVER_IP>:<ES_SERVER_PORT> \
+  jaegertracing/jaeger-query:1.11
+```
+
+#### Jaeger Agent
+
+```sh
+docker run \
+  --rm \
+  -p5775:5775/udp \
+  -p6831:6831/udp \
+  -p6832:6832/udp \
+  -p5778:5778/tcp \
+  jaegertracing/jaeger-agent:1.11 \
+  --reporter.grpc.host-port=jaeger-collector.jaeger-infra.svc:14250
 ```
 
 ### reference

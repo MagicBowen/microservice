@@ -311,9 +311,10 @@ tools:
 
 reference：
 - Dapper: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36356.pdf
+- Jaeger: https://www.jaegertracing.io/docs/1.11/
 - EagleEys: https://zhuanlan.zhihu.com/p/31324360
 - diff: https://riboseyim.github.io/2018/05/18/DevOps-OpenTracing/
-- plugin: https://github.com/opentracing-contrib/
+- plugins: https://github.com/opentracing-contrib/
 - tutorial: - https://github.com/yurishkuro/opentracing-tutorial
 - https://www.jaegertracing.io/docs/1.11/getting-started/
 - https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941
