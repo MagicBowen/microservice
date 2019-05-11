@@ -321,10 +321,10 @@ reference：
 - https://github.com/jaegertracing/jaeger/tree/master/examples/hotrod
 
 TODO:
-- [ ]: Launch Jaeger Agent
-- [ ]: Launch Jaeger Collector with ES
-- [ ]: Launch Jaeger UI
-- [ ]: Trace Traefik
+- [x]: Launch Jaeger Agent
+- [x]: Launch Jaeger Collector with ES
+- [x]: Launch Jaeger UI
+- [x]: Trace Traefik
 - [ ]: Trace Http Service
 - [ ]: Trace gRPC
 - [ ]: Trace MongoDB
