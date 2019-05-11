@@ -38,6 +38,8 @@ func (m *middleware) handle(c echo.Context) error {
 	w := c.Response().Writer
 	sct := &statusCodeTracker{ResponseWriter: w}
 	c.Response().Writer = sct.wrappedResponseWriter()
+	c.Set("tracer", tr)
+	c.Set("span", sp)
 	req = req.WithContext(opentracing.ContextWithSpan(req.Context(), sp))
 	defer func() {
 		ext.HTTPStatusCode.Set(sp, uint16(sct.status))
