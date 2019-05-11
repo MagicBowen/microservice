@@ -1,14 +1,11 @@
 package main
 
 import (
-	"flag"
-	"log"
-
 	"github.com/MagicBowen/microservice/examples/services/utils/discovery"
+	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
 )
 
 var (
-	logFile       = flag.String("log", "output.log", "Log file name")
 	etcdEndPoints = []string{"etcd1:2379", "etcd2:2379", "etcd3:2379"}
 )
 
@@ -19,18 +16,18 @@ const (
 )
 
 func main() {
-	flag.Parse()
-	// initLogger(logFile)
+	serviceTracer := tracing.NewServiceTracer("http-service", tracing.PROMETHEUS)
+	serviceTracer.InfoLog("serviceTracer init OK")
 
 	d, _ := discovery.NewDiscovery(etcdEndPoints, servicePath)
 	defer d.Stop()
 
 	err := rpc.initial(d, entityServiceName)
 	if err != nil {
-		log.Fatalf("gRPC init failed")
+		serviceTracer.FatalLog("gRPC init failed")
 		return
 	}
 	defer rpc.release()
 
-	initHTTPServer(serviceAddress)
+	initHTTPServer(serviceAddress, serviceTracer)
 }

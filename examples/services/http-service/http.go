@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
 )
 
 func createUser(c echo.Context) error {
@@ -73,12 +74,13 @@ func home(c echo.Context) error {
 	return c.String(http.StatusOK, "Welcome to "+getSiteName())
 }
 
-func initHTTPServer(address string) {
+func initHTTPServer(address string, tracer *tracing.ServiceTracer) {
 	e := echo.New()
 
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(tracing.EchoMiddleware(tracer))
 
 	// Routes
 	e.GET("/", home)
