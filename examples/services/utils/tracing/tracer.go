@@ -33,6 +33,7 @@ func NewTracer(serviceName string, metricsFactory metrics.Factory, logger LogFac
 	cfg.ServiceName = serviceName
 	cfg.Sampler.Type = "const"
 	cfg.Sampler.Param = 1
+	cfg.Reporter = &config.ReporterConfig{LogSpans: true}
 
 	jaegerLogger := jaegerLoggerAdapter{logger.Bg()}
 
