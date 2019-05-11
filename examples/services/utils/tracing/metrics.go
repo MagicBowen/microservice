@@ -6,11 +6,19 @@ import (
 	jprom "github.com/uber/jaeger-lib/metrics/prometheus"
 )
 
-func NewMetrics(backend string) metrics.Factory {
+type MetricsType int
+
+const (
+	_ MetricsType = iota
+	PROMETHEUS
+	EXPVAR
+)
+
+func NewMetrics(backend MetricsType) metrics.Factory {
 	switch backend {
-	case "expvar":
+	case EXPVAR:
 		return jexpvar.NewFactory(10) // 10 buckets for histograms
-	case "prometheus":
+	case PROMETHEUS:
 		return jprom.New().Namespace(metrics.NSOptions{Name: "hotrod", Tags: nil})
 	default:
 		return nil

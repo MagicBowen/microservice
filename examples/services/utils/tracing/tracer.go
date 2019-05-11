@@ -16,7 +16,6 @@ package tracing
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/opentracing/opentracing-go"
 	"github.com/uber/jaeger-client-go/config"
@@ -35,8 +34,6 @@ func NewTracer(serviceName string, metricsFactory metrics.Factory, logger LogFac
 	cfg.Sampler.Type = "const"
 	cfg.Sampler.Param = 1
 
-	// TODO(ys) a quick hack to ensure random generators get different seeds, which are based on current time.
-	time.Sleep(100 * time.Millisecond)
 	jaegerLogger := jaegerLoggerAdapter{logger.Bg()}
 
 	metricsFactory = metricsFactory.Namespace(metrics.NSOptions{Name: serviceName, Tags: nil})
