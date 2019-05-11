@@ -11,8 +11,9 @@ import (
 
 // ServiceTracer for service
 type ServiceTracer struct {
-	tracer opentracing.Tracer
-	logger LogFactory
+	tracer      opentracing.Tracer
+	logger      LogFactory
+	serviceName string
 }
 
 // NewServiceTracer to generate a global tracer with logger for service
@@ -23,7 +24,7 @@ func NewServiceTracer(serviceName string, metricsType MetricsType) *ServiceTrace
 	metricsFactory := NewMetrics(metricsType)
 	tracer := NewTracer(serviceName, metricsFactory, logger)
 	opentracing.SetGlobalTracer(tracer)
-	return &ServiceTracer{tracer: tracer, logger: logger}
+	return &ServiceTracer{tracer: tracer, logger: logger, serviceName: serviceName}
 }
 
 // InfoLog wrapper Logger.Info
@@ -44,6 +45,11 @@ func (st *ServiceTracer) FatalLog(msg string, fields ...interface{}) {
 // ContextLogger to get the Logger of context
 func (st *ServiceTracer) ContextLogger(ctx context.Context) Logger {
 	return st.logger.For(ctx)
+}
+
+// ServiceName return the component name
+func (st *ServiceTracer) ServiceName() string {
+	return st.serviceName
 }
 
 // OpenTracer to get the tracer of opentracing
