@@ -22,6 +22,7 @@ func NewServiceTracer(serviceName string, metricsType MetricsType) *ServiceTrace
 	logger := NewLogFactory(zapLogger)
 	metricsFactory := NewMetrics(metricsType)
 	tracer := NewTracer(serviceName, metricsFactory, logger)
+	opentracing.SetGlobalTracer(tracer)
 	return &ServiceTracer{tracer: tracer, logger: logger}
 }
 
