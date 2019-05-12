@@ -25,16 +25,22 @@ services:
     build:
       context: ./services/http-service
     image: http-service:1.0.0
-    depends_on:
-      - api-gateway
-      - redis
-      - entity-service
     expose:
       - "8866"
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.entryPoints=web"
       - "traefik.frontend.rule=PathPrefixStrip:/api/"
+    environment:
+      JAEGER_AGENT_HOST: jaeger-agent
+      JAEGER_AGENT_PORT: 6831 
+    links:
+      - jaeger-agent
+    depends_on:
+      - api-gateway
+      - redis
+      - entity-service
+      - jaeger-agent
     networks: 
       - microservices
 
