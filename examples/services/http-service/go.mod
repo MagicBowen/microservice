@@ -1,11 +1,11 @@
 module http-service
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190512093706-645822c1ea6f
-	github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190512093706-645822c1ea6f
+	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190512121136-5de810a5741f
+	github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190512121136-5de810a5741f
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645
 	github.com/labstack/echo/v4 v4.1.5
-	github.com/magicbowen/microservice v0.0.0-20190512093706-645822c1ea6f
+	github.com/magicbowen/microservice v0.0.0-20190512121136-5de810a5741f
 	google.golang.org/grpc v1.20.1
 )
 

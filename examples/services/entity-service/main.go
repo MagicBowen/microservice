@@ -31,5 +31,5 @@ func main() {
 	service := registration.NewService("entity-service").Address(serviceAddress).RegisterTo(etcdEndpoints, "services")
 	defer service.Stop()
 
-	(&userRPCServer{}).startUp(serviceAddress, repo)
+	(&userRPCServer{}).startUp(serviceAddress, repo, serviceTracer)
 }

@@ -53,4 +53,4 @@ COPY --from=builder /app /app
 EXPOSE 8866
 
 # Run the compiled binary.
-ENTRYPOINT ["/app", "-log", "output.log"]
+ENTRYPOINT ["/app"]

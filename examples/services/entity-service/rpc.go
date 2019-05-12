@@ -8,16 +8,24 @@ import (
 
 	api "github.com/magicbowen/microservice/examples/services/api"
 	"google.golang.org/grpc"
+	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
 )
 
 // server is used to implement api.EntityServer.
 type userRPCServer struct {
 	grpcServer *grpc.Server
 	repo       *userRepo
+	tracer     *tracing.ServiceTracer
 }
 
 func (s *userRPCServer) initServer() {
-	s.grpcServer = grpc.NewServer()
+	s.grpcServer = grpc.NewServer(
+		grpc.UnaryInterceptor(
+			otgrpc.OpenTracingServerInterceptor(s.tracer.OpenTracer())),
+		grpc.StreamInterceptor(
+			otgrpc.OpenTracingStreamServerInterceptor(s.tracer.OpenTracer())),
+	)
 	api.RegisterEntityServer(s.grpcServer, s)
 }
 
@@ -32,8 +40,9 @@ func (s *userRPCServer) run(address string) {
 	}
 }
 
-func (s *userRPCServer) startUp(address string, repo *userRepo) {
+func (s *userRPCServer) startUp(address string, repo *userRepo, tracer *tracing.ServiceTracer) {
 	s.repo = repo
+	s.tracer = tracer
 	s.initServer()
 	s.run(address)
 }
