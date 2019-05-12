@@ -138,13 +138,12 @@ func (s *Service) keepAlive() {
 		case <-s.client.Ctx().Done():
 			log.Printf("etcd server closed")
 			return
-		case ka, ok := <-ch:
+		case _, ok := <-ch:
 			if !ok {
 				log.Printf("keep alive channel closed")
 				s.revoke()
 				return
 			}
-			// log.Printf("received reply from service: %s, ttl:%d", s.name, ka.TTL)
 		}
 	}
 }
