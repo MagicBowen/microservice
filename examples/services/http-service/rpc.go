@@ -8,7 +8,9 @@ import (
 	"time"
 
 	"github.com/MagicBowen/microservice/examples/services/utils/discovery"
+	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
 	api "github.com/magicbowen/microservice/examples/services/api"
+	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"google.golang.org/grpc"
 )
 
@@ -17,14 +19,19 @@ type RPC struct {
 	ec api.EntityClient
 }
 
-func (client *RPC) initial(d *discovery.Discovery, targetServiceName string) error {
+func (client *RPC) initial(targetServiceName string, d *discovery.Discovery, tracer *tracing.ServiceTracer) error {
 	r, err := d.Resolver(targetServiceName)
 	if err != nil {
 		log.Fatalf("Discovery initial resolver for gRPC failed: %v", err)
 	}
 	b := grpc.RoundRobin(r)
 
-	client.cc, err = grpc.Dial("", grpc.WithInsecure(), grpc.WithBalancer(b))
+	client.cc, err = grpc.Dial("", 
+		grpc.WithInsecure(), 
+		grpc.WithBalancer(b),
+	    grpc.WithUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(tracer.OpenTracer())),
+		grpc.WithStreamInterceptor(otgrpc.OpenTracingStreamClientInterceptor(tracer.OpenTracer())),
+		)
 	if err != nil {
 		log.Fatalf("connect with load balance error: %v", err)
 		return err

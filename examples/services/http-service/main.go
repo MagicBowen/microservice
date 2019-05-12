@@ -22,7 +22,7 @@ func main() {
 	d, _ := discovery.NewDiscovery(etcdEndPoints, servicePath)
 	defer d.Stop()
 
-	err := rpc.initial(d, entityServiceName)
+	err := rpc.initial(entityServiceName, d, serviceTracer)
 	if err != nil {
 		serviceTracer.FatalLog("gRPC init failed")
 		return

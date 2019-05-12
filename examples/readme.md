@@ -308,6 +308,8 @@ tools:
 - Ubber: Jaeger
 - Alibaba: EagleEye
 - Elastic APM : https://www.elastic.co/guide/en/apm/agent/index.html 
+- gRPC tracing: https://github.com/grpc-ecosystem/grpc-opentracing
+- http tracing: https://github.com/opentracing-contrib/go-stdlib
 
 reference：
 - Dapper: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36356.pdf

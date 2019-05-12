@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/MagicBowen/microservice/examples/services/utils/registration"
+	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
 )
 
 const (
@@ -19,6 +20,9 @@ const (
 )
 
 func main() {
+	serviceTracer := tracing.NewServiceTracer("http-service", tracing.PROMETHEUS)
+	serviceTracer.InfoLog("serviceTracer init OK")
+
 	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)
 	cache := createCache(redisAddress, cacheExpiration)
 	repo := createUserRepo(db, cache)
