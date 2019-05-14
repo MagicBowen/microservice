@@ -66,6 +66,12 @@ docker run \
   --reporter.grpc.host-port=jaeger-collector.jaeger-infra.svc:14250
 ```
 
+#### Jaeger Dependence DAG
+
+```sh
+docker run --env STORAGE=elasticsearch --env ES_NODES=http://elasticsearch:9200 --env ES_USERNAME=elastic --env ES_PASSWORD=changeme jaegertracing/spark-dependencies
+```
+
 ### reference
 - https://www.jaegertracing.io/docs/1.11/getting-started/
 - https://medium.com/opentracing/take-opentracing-for-a-hotrod-ride-f6e3141f7941

@@ -1,11 +1,11 @@
 module http-service
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190514141256-b8475d051188
-	github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514141256-b8475d051188
+	github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190514145601-46a1a0c1f9af
+	github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514145601-46a1a0c1f9af
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645
 	github.com/labstack/echo/v4 v4.1.5
-	github.com/magicbowen/microservice v0.0.0-20190514141256-b8475d051188
+	github.com/magicbowen/microservice v0.0.0-20190514145601-46a1a0c1f9af
 	google.golang.org/grpc v1.20.1
 )
 
@@ -64,5 +64,7 @@ replace go.etcd.io/bbolt v1.3.2 => github.com/etcd-io/bbolt v1.3.2
 replace go.uber.org/zap v1.10.0 => github.com/uber-go/zap v1.10.0
 
 replace go.uber.org/multierr v1.1.0 => github.com/uber-go/multierr v1.1.0
+
+replace go.uber.org/atomic v1.4.0 => github.com/uber-go/atomic v1.3.2
 
 replace go.etcd.io/etcd v3.3.12+incompatible => github.com/etcd-io/etcd v3.3.12+incompatible

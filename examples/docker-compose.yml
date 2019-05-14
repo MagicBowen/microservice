@@ -214,4 +214,18 @@ services:
       - microservices
     depends_on:
       - jaeger-collector
+      
+  jaeger-dependence:
+    image: jaegertracing/spark-dependencies
+    networks:
+      - microservices
+    environment:
+      STORAGE: elasticsearch
+      ES_NODES: http://elasticsearch:9200
+      ES_USERNAME: elastic
+      ES_PASSWORD: changeme     
+    depends_on:
+      - elasticsearch
+
+
 
