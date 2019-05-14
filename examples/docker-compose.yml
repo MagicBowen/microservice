@@ -52,6 +52,11 @@ services:
       - mongodb
     expose:
       - "8899"
+    environment:
+      JAEGER_AGENT_HOST: jaeger-agent
+      JAEGER_AGENT_PORT: 6831 
+    links:
+      - jaeger-agent      
     networks:
       - microservices
 

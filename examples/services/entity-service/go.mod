@@ -77,4 +77,8 @@ replace go.uber.org/zap v1.10.0 => github.com/uber-go/zap v1.10.0
 
 replace go.uber.org/multierr v1.1.0 => github.com/uber-go/multierr v1.1.0
 
-replace gopkg.in/yaml.v2 v2.2.1 => github.com/go-yaml/yaml v2.2.1
+replace gopkg.in/yaml.v2 v2.2.1 => github.com/go-yaml/yaml v0.0.0-20180328195020-5420a8b6744d
+
+replace gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce => github.com/go-mgo/mgo v0.0.0-20180705113604-9856a29383ce
+
+replace go.uber.org/atomic v1.4.0 => github.com/uber-go/atomic v1.3.2

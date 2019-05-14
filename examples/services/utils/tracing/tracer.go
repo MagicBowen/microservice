@@ -33,10 +33,9 @@ func NewTracer(serviceName string, metricsFactory metrics.Factory, logger LogFac
 	cfg.ServiceName = serviceName
 	cfg.Sampler.Type = "const"
 	cfg.Sampler.Param = 1
-	cfg.Reporter = &config.ReporterConfig{LogSpans: true,
-		LocalAgentHostPort: "jaeger-agent:6831",
-		// CollectorEndpoint: "",
-	}
+	cfg.Reporter = &config.ReporterConfig{LogSpans: true}
+	// LocalAgentHostPort: "jaeger-agent:6831",
+	// CollectorEndpoint: "",
 
 	jaegerLogger := jaegerLoggerAdapter{logger.Bg()}
 

@@ -20,7 +20,7 @@ const (
 )
 
 func main() {
-	serviceTracer := tracing.NewServiceTracer("http-service", tracing.PROMETHEUS)
+	serviceTracer := tracing.NewServiceTracer("entity-service", tracing.PROMETHEUS)
 	serviceTracer.InfoLog("serviceTracer init OK")
 
 	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)
