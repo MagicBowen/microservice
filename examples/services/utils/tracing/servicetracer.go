@@ -17,12 +17,12 @@ type ServiceTracer struct {
 }
 
 // NewServiceTracer to generate a global tracer with logger for service
-func NewServiceTracer(serviceName string, metricsType MetricsType) *ServiceTracer {
+func NewServiceTracer(serviceName string, agentAddress string, metricsType MetricsType) *ServiceTracer {
 	zlogger, _ := zap.NewDevelopment(zap.AddStacktrace(zapcore.FatalLevel))
 	zapLogger := zlogger.With(zap.String("service", serviceName))
 	logger := NewLogFactory(zapLogger)
 	metricsFactory := NewMetrics(metricsType)
-	tracer := NewTracer(serviceName, metricsFactory, logger)
+	tracer := NewTracer(serviceName, agentAddress, metricsFactory, logger)
 	opentracing.SetGlobalTracer(tracer)
 	return &ServiceTracer{tracer: tracer, logger: logger, serviceName: serviceName}
 }

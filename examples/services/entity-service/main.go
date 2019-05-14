@@ -17,10 +17,12 @@ const (
 	cacheExpiration = 5 * time.Second
 
 	serviceAddress = ":8899"
+
+	jaegerAgentAddress = "jaeger-agent:6831"
 )
 
 func main() {
-	serviceTracer := tracing.NewServiceTracer("entity-service", tracing.PROMETHEUS)
+	serviceTracer := tracing.NewServiceTracer("entity-service", jaegerAgentAddress, tracing.PROMETHEUS)
 	serviceTracer.InfoLog("serviceTracer init OK")
 
 	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)

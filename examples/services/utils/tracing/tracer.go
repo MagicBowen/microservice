@@ -25,7 +25,7 @@ import (
 )
 
 // NewTracer creates a new instance of Jaeger tracer.
-func NewTracer(serviceName string, metricsFactory metrics.Factory, logger LogFactory) opentracing.Tracer {
+func NewTracer(serviceName string, agentAddress string, metricsFactory metrics.Factory, logger LogFactory) opentracing.Tracer {
 	cfg, err := config.FromEnv()
 	if err != nil {
 		logger.Bg().Fatal("cannot parse Jaeger env vars", zap.Error(err))
@@ -33,9 +33,11 @@ func NewTracer(serviceName string, metricsFactory metrics.Factory, logger LogFac
 	cfg.ServiceName = serviceName
 	cfg.Sampler.Type = "const"
 	cfg.Sampler.Param = 1
-	cfg.Reporter = &config.ReporterConfig{LogSpans: true}
-	// LocalAgentHostPort: "jaeger-agent:6831",
-	// CollectorEndpoint: "",
+	cfg.Reporter = &config.ReporterConfig{
+		LogSpans:           true,
+		LocalAgentHostPort: agentAddress,
+		CollectorEndpoint:  "",
+	}
 
 	jaegerLogger := jaegerLoggerAdapter{logger.Bg()}
 

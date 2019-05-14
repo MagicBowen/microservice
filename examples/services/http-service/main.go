@@ -10,13 +10,14 @@ var (
 )
 
 const (
-	servicePath       = "services"
-	entityServiceName = "entity-service"
-	serviceAddress    = ":8866"
+	servicePath        = "services"
+	entityServiceName  = "entity-service"
+	serviceAddress     = ":8866"
+	jaegerAgentAddress = "jaeger-agent:6831"
 )
 
 func main() {
-	serviceTracer := tracing.NewServiceTracer("http-service", tracing.PROMETHEUS)
+	serviceTracer := tracing.NewServiceTracer("http-service", jaegerAgentAddress, tracing.PROMETHEUS)
 	serviceTracer.InfoLog("serviceTracer init OK")
 
 	d, _ := discovery.NewDiscovery(etcdEndPoints, servicePath)
