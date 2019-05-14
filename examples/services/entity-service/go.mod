@@ -1,14 +1,14 @@
 module entity-service
 
 require (
-	github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190514145601-46a1a0c1f9af
-	github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514145601-46a1a0c1f9af
+	github.com/MagicBowen/microservice/examples/services/utils/registration v0.0.0-20190514222248-b57f7ea00b84
+	github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514222248-b57f7ea00b84
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/go-cmp v0.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645
-	github.com/magicbowen/microservice v0.0.0-20190514145601-46a1a0c1f9af
+	github.com/magicbowen/microservice v0.0.0-20190514222248-b57f7ea00b84
 	github.com/onsi/ginkgo v1.8.0 // indirect
 	github.com/onsi/gomega v1.5.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0
