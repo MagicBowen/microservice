@@ -192,6 +192,11 @@
     #
     localAgentHostPort = "jaeger-agent:6831"
 
+    # Generate 128-bit trace IDs, compatible with OpenCensus
+    #
+    # Default: false
+    gen128Bit = true
+
     # Trace Context Header Name is the http header name used to propagate tracing context.
     # This must be in lower-case to avoid mismatches when decoding incoming headers.
     #

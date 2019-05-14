@@ -5,12 +5,16 @@ github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-2019
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190512121136-5de810a5741f/go.mod h1:3nmQXRvb4hdu4dQLTdbcKZJ5K+4mXoNA06TwjK0EfM4=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190514141256-b8475d051188 h1:UQvi+lmEbv3lHW2oEwmbO/eL9ropA/GciNxOtTskb8U=
 github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190514141256-b8475d051188/go.mod h1:3nmQXRvb4hdu4dQLTdbcKZJ5K+4mXoNA06TwjK0EfM4=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190514145601-46a1a0c1f9af h1:FYMHRJ0WO4ApU+pCYB/izfV17nFzF3At1lFg7S+T+yM=
+github.com/MagicBowen/microservice/examples/services/utils/discovery v0.0.0-20190514145601-46a1a0c1f9af/go.mod h1:3nmQXRvb4hdu4dQLTdbcKZJ5K+4mXoNA06TwjK0EfM4=
 github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190512093706-645822c1ea6f h1:x6i+xTpacsM2i5FexDK8Jur/+8pflVMpDzZXrhljflY=
 github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190512093706-645822c1ea6f/go.mod h1:9lYNBwicM58fQx3PC5O1p9YstwQaP9wbNoFumhuOnYQ=
 github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190512121136-5de810a5741f h1:HDrVDMBcl0ZrwyMOX/YNFnY4pqns1QGKf7Bzzz4EcjA=
 github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190512121136-5de810a5741f/go.mod h1:+kWI16FYDgE+oRNLc1KwJeBb3ZVZSjhiuUlH8HWJNsY=
 github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514141256-b8475d051188 h1:KvRD4mBskFpttbKrE4dR37xr01GseZKzTnbZBl7i5no=
 github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514141256-b8475d051188/go.mod h1:+kWI16FYDgE+oRNLc1KwJeBb3ZVZSjhiuUlH8HWJNsY=
+github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514145601-46a1a0c1f9af h1:8bFPrMQXZ08BnGOgjTbgCFC/D3IC4ScJdED3uW0w3hY=
+github.com/MagicBowen/microservice/examples/services/utils/tracing v0.0.0-20190514145601-46a1a0c1f9af/go.mod h1:+kWI16FYDgE+oRNLc1KwJeBb3ZVZSjhiuUlH8HWJNsY=
 github.com/VividCortex/gohistogram v1.0.0 h1:6+hBz+qvs0JOrrNhhmR7lFxo5sINxBCGXrdtl/UvroE=
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973 h1:xJ4a3vCFaGF/jqvzLMYoU8P317H5OQ+Via4RmuPwCS0=
@@ -117,6 +121,8 @@ github.com/magicbowen/microservice v0.0.0-20190512121136-5de810a5741f/go.mod h1:
 github.com/magicbowen/microservice v0.0.0-20190514061256-b8475d051188 h1:Fhh6zwdHrfu4bvt44bhc2f/I+HNBEy+uo33fHL3MKiM=
 github.com/magicbowen/microservice v0.0.0-20190514141256-b8475d051188 h1:AU508aZeMMPAgu2XpPl6DfPnoXYEb0PfKuj78Bc37zo=
 github.com/magicbowen/microservice v0.0.0-20190514141256-b8475d051188/go.mod h1:HDCe9JJnljf9kb+JdVaEYNxsbfi4pWf10rq1IFqcUuo=
+github.com/magicbowen/microservice v0.0.0-20190514145601-46a1a0c1f9af h1:XntZ6qsxUP5QdxxJZuFJwHwpVWpGjINYsoWv6xDW5QE=
+github.com/magicbowen/microservice v0.0.0-20190514145601-46a1a0c1f9af/go.mod h1:HDCe9JJnljf9kb+JdVaEYNxsbfi4pWf10rq1IFqcUuo=
 github.com/mattn/go-colorable v0.1.1 h1:G1f5SKeVxmagw/IyvzvtZE4Gybcc4Tr1tf7I8z0XgOg=
 github.com/mattn/go-colorable v0.1.1/go.mod h1:FuOcm+DKB9mbwrcAfNl7/TZVBZ6rcnceauSikq3lYCQ=
 github.com/mattn/go-isatty v0.0.5/go.mod h1:Iq45c/XA43vh69/j3iqttzPXn0bhXyGjM0Hdxcsrc5s=
@@ -156,6 +162,8 @@ github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 h1:LnC5Kc/wtumK+WB441p7ynQJzVuNRJiqddSIE3IlSEQ=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
+github.com/uber-go/atomic v1.3.2 h1:Azu9lPBWRNKzYXSIwRfgRuDuS0YKsK4NFhiQv98gkxo=
+github.com/uber-go/atomic v1.3.2/go.mod h1:/Ct5t2lcmbJ4OSe/waGBoaVvVqtO0bmtfVNex1PFV8g=
 github.com/uber-go/atomic v1.4.0 h1:yOuPqEq4ovnhEjpHmfFwsqBXDYbQeT6Nb0bwD6XnD5o=
 github.com/uber-go/atomic v1.4.0/go.mod h1:/Ct5t2lcmbJ4OSe/waGBoaVvVqtO0bmtfVNex1PFV8g=
 github.com/uber-go/multierr v1.1.0 h1:0yjbRFohBIYjhub5/9AKZtV0P7079XboeGwXz0ccR9w=

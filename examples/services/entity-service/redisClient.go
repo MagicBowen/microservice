@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"time"
@@ -14,11 +15,11 @@ type redisClient struct {
 	client     *redis.Client
 }
 
-func (rc *redisClient) set(key string, value string) error {
+func (rc *redisClient) set(context context.Context, key string, value string) error {
 	return rc.client.Set(key, value, rc.expiration).Err()
 }
 
-func (rc *redisClient) get(key string) (string, error) {
+func (rc *redisClient) get(context context.Context, key string) (string, error) {
 	value, err := rc.client.Get(key).Result()
 	if err == redis.Nil {
 		errStr := fmt.Sprintf("key (%s) does not exist!", key)
@@ -30,6 +31,6 @@ func (rc *redisClient) get(key string) (string, error) {
 	}
 }
 
-func (rc *redisClient) del(key string) error {
+func (rc *redisClient) del(context context.Context, key string) error {
 	return rc.client.Del(key).Err()
 }

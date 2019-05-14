@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	"gopkg.in/mgo.v2/bson"
@@ -11,17 +12,17 @@ type userRepo struct {
 	cache *entityCache
 }
 
-func (repo *userRepo) createUser(user *userEntity) error {
-	if err := repo.db.insertOne(bson.M{"id": user.ID, "name": user.Name}); err != nil {
+func (repo *userRepo) createUser(ctx context.Context, user *userEntity) error {
+	if err := repo.db.insertOne(ctx, bson.M{"id": user.ID, "name": user.Name}); err != nil {
 		return err
 	}
-	return repo.cache.set(user.ID, user)
+	return repo.cache.set(ctx, user.ID, user)
 }
 
-func (repo *userRepo) getUserByID(id int) *userEntity {
+func (repo *userRepo) getUserByID(ctx context.Context, id int) *userEntity {
 	var user userEntity
-	if err := repo.cache.get(id, &user); err != nil {
-		if err := repo.db.findOne(bson.M{"id": id}, &user); err != nil {
+	if err := repo.cache.get(ctx, id, &user); err != nil {
+		if err := repo.db.findOne(ctx, bson.M{"id": id}, &user); err != nil {
 			log.Printf("find user by id(%d) failed: %v", id, err)
 			return nil
 		}
@@ -29,18 +30,18 @@ func (repo *userRepo) getUserByID(id int) *userEntity {
 	return &user
 }
 
-func (repo *userRepo) updateUser(user *userEntity) error {
-	if err := repo.db.updateOne(bson.M{"id": user.ID}, bson.M{"$set": bson.M{"name": user.Name}}); err != nil {
+func (repo *userRepo) updateUser(ctx context.Context, user *userEntity) error {
+	if err := repo.db.updateOne(ctx, bson.M{"id": user.ID}, bson.M{"$set": bson.M{"name": user.Name}}); err != nil {
 		return nil
 	}
-	return repo.cache.set(user.ID, user)
+	return repo.cache.set(ctx, user.ID, user)
 }
 
-func (repo *userRepo) deleteUser(id int) error {
-	if err := repo.db.delete(bson.M{"id": id}); err != nil {
+func (repo *userRepo) deleteUser(ctx context.Context, id int) error {
+	if err := repo.db.delete(ctx, bson.M{"id": id}); err != nil {
 		return err
 	}
-	return repo.cache.del(id)
+	return repo.cache.del(ctx, id)
 }
 
 func createUserRepo(db entityDB, cache cache) *userRepo {

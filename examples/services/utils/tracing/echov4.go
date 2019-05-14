@@ -30,8 +30,15 @@ func (m *middleware) handle(c echo.Context) error {
 	req := c.Request()
 	opname := "HTTP " + req.Method + " " + c.Path()
 	tr := m.tracer.OpenTracer()
-	ctx, _ := tr.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(req.Header))
-	sp := tr.StartSpan(opname, ext.RPCServerOption(ctx))
+	ctx, err := tr.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(req.Header))
+	var sp opentracing.Span
+	if err == nil {
+		sp = tr.StartSpan(opname, ext.RPCServerOption(ctx))
+		m.tracer.InfoLog("extract ctx: %v", ctx)
+	} else {
+		sp = tr.StartSpan(opname)
+		m.tracer.InfoLog("extract ctx err %v", err)
+	}
 	ext.HTTPMethod.Set(sp, req.Method)
 	ext.HTTPUrl.Set(sp, req.URL.String())
 	ext.Component.Set(sp, m.tracer.ServiceName())

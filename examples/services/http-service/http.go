@@ -33,11 +33,12 @@ func createUser(c echo.Context) error {
 func getUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	log.Printf("get user %d\n", id)
-	if user, err := rpc.getUser(getContext(c), int32(id)); err != nil {
+	log.Printf("req header = %v", c.Request().Header)
+	user, err := rpc.getUser(getContext(c), int32(id))
+	if err != nil {
 		return c.NoContent(http.StatusNotFound)
-	} else {
-		return c.JSON(http.StatusOK, user)
-	}
+	} 
+	return c.JSON(http.StatusOK, user)
 }
 
 func updateUser(c echo.Context) error {

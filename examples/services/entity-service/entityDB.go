@@ -1,8 +1,12 @@
 package main
 
+import (
+	"context"
+)
+
 type entityDB interface {
-	findOne(filter interface{}, value interface{}) error
-	insertOne(value interface{}) error
-	updateOne(filter interface{}, update interface{}) error
-	delete(filter interface{}) error
+	findOne(ctx context.Context, filter interface{}, value interface{}) error
+	insertOne(ctx context.Context, value interface{}) error
+	updateOne(ctx context.Context, filter interface{}, update interface{}) error
+	delete(ctx context.Context, filter interface{}) error
 }
