@@ -41,6 +41,7 @@ func (m *middleware) handle(c echo.Context) error {
 	c.Set("tracer", tr)
 	c.Set("span", sp)
 	req = req.WithContext(opentracing.ContextWithSpan(req.Context(), sp))
+	c.SetRequest(req)
 	defer func() {
 		ext.HTTPStatusCode.Set(sp, uint16(sct.status))
 		if sct.status >= http.StatusInternalServerError || !sct.wroteheader {

@@ -5,18 +5,23 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"context"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
 )
 
+func getContext(c echo.Context) context.Context {
+	return c.Request().Context()
+}
+
 func createUser(c echo.Context) error {
 	u := new(user)
 	if err := c.Bind(u); err != nil {
 		return err
 	}
-	err := rpc.addUser(u)
+	err := rpc.addUser(getContext(c), u)
 	if err != nil {
 		log.Printf("create user %v failed\n", u)
 		return c.NoContent(http.StatusForbidden)
@@ -28,7 +33,7 @@ func createUser(c echo.Context) error {
 func getUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	log.Printf("get user %d\n", id)
-	if user, err := rpc.getUser(int32(id)); err != nil {
+	if user, err := rpc.getUser(getContext(c), int32(id)); err != nil {
 		return c.NoContent(http.StatusNotFound)
 	} else {
 		return c.JSON(http.StatusOK, user)
@@ -41,7 +46,7 @@ func updateUser(c echo.Context) error {
 		return err
 	}
 	u.ID, _ = strconv.Atoi(c.Param("id"))
-	err := rpc.updateUser(u)
+	err := rpc.updateUser(getContext(c), u)
 	if err != nil {
 		log.Printf("update user %v failed\n", u)
 		return c.NoContent(http.StatusForbidden)
@@ -52,7 +57,7 @@ func updateUser(c echo.Context) error {
 
 func deleteUser(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := rpc.deleteUser(id)
+	err := rpc.deleteUser(getContext(c), id)
 	if err != nil {
 		log.Printf("delete user %d failed\n", id)
 		return c.NoContent(http.StatusForbidden)

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/MagicBowen/microservice/examples/services/utils/discovery"
 	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
@@ -48,9 +47,7 @@ func (client *RPC) release() {
 	}
 }
 
-func (client *RPC) getUser(id int32) (*user, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+func (client *RPC) getUser(ctx context.Context, id int32) (*user, error) {
 	u, err := client.ec.GetUser(ctx, &api.UserRequest{Id: id})
 	if err != nil {
 		errStr := fmt.Sprintf("get user error: %v", err)
@@ -60,9 +57,7 @@ func (client *RPC) getUser(id int32) (*user, error) {
 	return &user{ID: int(id), Name: u.Name}, nil
 }
 
-func (client *RPC) addUser(u *user) error {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+func (client *RPC) addUser(ctx context.Context, u *user) error {
 	status, err := client.ec.AddUser(ctx, &api.UserInfoMsg{Id: int32(u.ID), Name: u.Name})
 	if err != nil {
 		log.Printf("add user error: %v", err)
@@ -76,9 +71,7 @@ func (client *RPC) addUser(u *user) error {
 	return nil
 }
 
-func (client *RPC) updateUser(u *user) error {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+func (client *RPC) updateUser(ctx context.Context, u *user) error {
 	status, err := client.ec.UpdateUser(ctx, &api.UserInfoMsg{Id: int32(u.ID), Name: u.Name})
 	if err != nil {
 		log.Printf("update user error: %v", err)
@@ -92,9 +85,7 @@ func (client *RPC) updateUser(u *user) error {
 	return nil
 }
 
-func (client *RPC) deleteUser(id int) error {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+func (client *RPC) deleteUser(ctx context.Context, id int) error {
 	status, err := client.ec.DeleteUser(ctx, &api.UserRequest{Id: int32(id)})
 	if err != nil {
 		log.Printf("delete user error: %v", err)
