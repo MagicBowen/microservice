@@ -327,10 +327,10 @@ TODO:
 - [x]: Launch Jaeger Collector with ES
 - [x]: Launch Jaeger UI
 - [x]: Trace Traefik
-- [ ]: Trace Http Service
-- [ ]: Trace gRPC
-- [ ]: Trace MongoDB
-- [ ]: Trace Redis
+- [x]: Trace Http Service
+- [x]: Trace gRPC
+- [ ]: Trace MongoDB seperate
+- [ ]: Trace Redis seperate
 
 ## metrics
 
