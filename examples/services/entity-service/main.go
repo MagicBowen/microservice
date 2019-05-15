@@ -25,7 +25,7 @@ func main() {
 	serviceTracer := tracing.NewServiceTracer("entity-service", jaegerAgentAddress, tracing.PROMETHEUS)
 	serviceTracer.InfoLog("serviceTracer init OK")
 
-	db := createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration)
+	db := newTracingDB(serviceTracer, createMongoDB(mongoAddress, dbName, collectionName, mongoOPExpiration))
 	cache := newTracingCache(serviceTracer, createRedisCache(redisAddress, cacheExpiration))
 	repo := createUserRepo(db, cache)
 
