@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"time"
 
@@ -8,6 +9,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
+
+func getDefaultTimeoutCtx(expiration time.Duration) (context.Context, context.CancelFunc) {
+	return context.WithTimeout(context.Background(), expiration)
+}
 
 func testMongoConnection(client *mongo.Client, expiration time.Duration) error {
 	ctx, cancel := getDefaultTimeoutCtx(expiration)

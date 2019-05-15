@@ -26,24 +26,24 @@ func (tDB *tracingDB) traceMongoDB(
 func (tDB *tracingDB) findOne(ctx context.Context, filter interface{}, value interface{}) error{
 	_, spanFinish := tDB.traceMongoDB(ctx, "findOne")
 	defer spanFinish()
-	return tDB.findOne(ctx, filter, value)
+	return tDB.db.findOne(ctx, filter, value)
 }
 
 func (tDB *tracingDB)insertOne(ctx context.Context, value interface{}) error{
 	_, spanFinish := tDB.traceMongoDB(ctx, "insertOne")
 	defer spanFinish()
-	return tDB.insertOne(ctx, value)
+	return tDB.db.insertOne(ctx, value)
 }
 
 func (tDB *tracingDB)updateOne(ctx context.Context, filter interface{}, update interface{}) error{
 	_, spanFinish := tDB.traceMongoDB(ctx, "updateOne")
 	defer spanFinish()
-	return tDB.updateOne(ctx, filter, update)
+	return tDB.db.updateOne(ctx, filter, update)
 }
 
 func (tDB *tracingDB)delete(ctx context.Context, filter interface{}) error{
 	_, spanFinish := tDB.traceMongoDB(ctx, "delete")
 	defer spanFinish()
-	return tDB.delete(ctx, filter)
+	return tDB.db.delete(ctx, filter)
 }
 
