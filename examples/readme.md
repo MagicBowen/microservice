@@ -15,6 +15,7 @@
 - [x]: logstash log to ELK (spike fluentD)
 - [ ]: distributed trace
 - [ ]: metrics in promotheus
+- [ ]: dependence of service by health
 - [ ]: entity service use mongo to publish entity event
 - [ ]: event services compete to deal msgs in kafka
 - [ ]: CD pipeline
@@ -329,8 +330,8 @@ TODO:
 - [x]: Trace Traefik
 - [x]: Trace Http Service
 - [x]: Trace gRPC
-- [ ]: Trace MongoDB seperate
-- [ ]: Trace Redis seperate
+- [x]: Trace MongoDB seperate
+- [x]: Trace Redis seperate
 
 ## metrics
 
