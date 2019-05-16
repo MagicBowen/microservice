@@ -38,7 +38,6 @@ services:
       - jaeger-agent
     depends_on:
       - api-gateway
-      - redis
       - entity-service
       - jaeger-agent
     networks: 
@@ -50,6 +49,7 @@ services:
     image: entity-service:1.0.0
     depends_on:
       - mongodb
+      - redis
     expose:
       - "8899"
     environment:
@@ -125,7 +125,12 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       ELASTIC_PASSWORD: changeme
-      LOGSPOUT: ignore        
+      LOGSPOUT: ignore
+    healthcheck:
+      test: ["CMD", "curl", "-u", "elastic:changeme", "--silent", "--fail", "localhost:9200/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10     
     networks:
       - microservices
 

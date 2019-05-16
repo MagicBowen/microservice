@@ -13,15 +13,15 @@
 - [x]: LB to entity service
 - [ ]: Use graphQL
 - [x]: logstash log to ELK (spike fluentD)
-- [ ]: distributed trace
-- [ ]: metrics in promotheus
+- [x]: distributed trace
 - [ ]: dependence of service by health
+- [ ]: metrics in promotheus
 - [ ]: entity service use mongo to publish entity event
 - [ ]: event services compete to deal msgs in kafka
 - [ ]: CD pipeline
-- [ ]: data analyzing using spark
-- [ ]: stream using flink
-- [ ]: some job using FaaS: https://cloud.tencent.com/developer/article/1365541 （spike Knative）
+- [ ]: data analyzing by spark
+- [ ]: stream by flink
+- [ ]: some job by FaaS: https://cloud.tencent.com/developer/article/1365541 （spike Knative）
 - [ ]: move docker to K8S
 - [ ]: API by swagger
 - [ ]: Contract Test
