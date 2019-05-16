@@ -50,4 +50,4 @@ scrape_configs:
 
   - job_name: mongo_exporter
     static_configs:
-    - targets: ['mongo-exporter:9001']         
+    - targets: ['mongo-exporter:9216']         

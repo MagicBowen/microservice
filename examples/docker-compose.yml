@@ -282,7 +282,7 @@ services:
   mongo-exporter:
     image: ssalaues/mongodb-exporter
     expose:
-      - "9001"
+      - "9216"
     environment:
       LOGSPOUT: ignore  
       MONGODB_URI: mongodb://mongodb:27017
