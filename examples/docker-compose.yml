@@ -91,6 +91,8 @@ services:
     ports:
       - 2379
       - 2380
+    environment:
+      LOGSPOUT: ignore            
     networks:
       - microservices
   etcd2:
@@ -100,6 +102,8 @@ services:
     ports:
       - 2379
       - 2380
+    environment:
+      LOGSPOUT: ignore            
     networks:
       - microservices
   etcd3:
@@ -109,6 +113,8 @@ services:
     ports:
       - 2379
       - 2380
+    environment:
+      LOGSPOUT: ignore      
     networks:
       - microservices
 
@@ -126,11 +132,6 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       ELASTIC_PASSWORD: changeme
       LOGSPOUT: ignore
-    healthcheck:
-      test: ["CMD", "curl", "-u", "elastic:changeme", "--silent", "--fail", "localhost:9200/_cluster/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 10     
     networks:
       - microservices
 
@@ -191,6 +192,7 @@ services:
       ES_SERVER_URLS: http://elasticsearch:9200
       ES_USERNAME: elastic
       ES_PASSWORD: changeme
+      LOGSPOUT: ignore      
     networks:
       - microservices
     depends_on:
@@ -205,7 +207,8 @@ services:
       SPAN_STORAGE_TYPE: elasticsearch
       ES_SERVER_URLS: http://elasticsearch:9200
       ES_USERNAME: elastic
-      ES_PASSWORD: changeme      
+      ES_PASSWORD: changeme     
+      LOGSPOUT: ignore       
     command: --es.username elastic --es.password changeme
     networks:
       - microservices
@@ -217,6 +220,8 @@ services:
     command: --reporter.grpc.host-port=jaeger-collector:14250
     networks:
       - microservices
+    environment:
+      LOGSPOUT: ignore  
     depends_on:
       - jaeger-collector
       
@@ -228,7 +233,8 @@ services:
       STORAGE: elasticsearch
       ES_NODES: http://elasticsearch:9200
       ES_USERNAME: elastic
-      ES_PASSWORD: changeme     
+      ES_PASSWORD: changeme 
+      LOGSPOUT: ignore            
     depends_on:
       - elasticsearch
 
