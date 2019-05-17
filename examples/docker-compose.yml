@@ -9,13 +9,12 @@ services:
     image: traefik
     container_name: api-gateway
     ports:
-      - "80:80"         # The HTTP port
-      - "8080:8080"     # The Web UI (enabled by --api)
+      - "80:80"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - $PWD/traefik/traefik.toml:/etc/traefik/traefik.toml
       - $PWD/traefik/rules.toml:/etc/traefik/rules.toml
-      # - $PWD/traefik/access.txt:/etc/traefik/log/access.txt
     networks: 
       - microservices
     depends_on:
@@ -25,17 +24,13 @@ services:
     build:
       context: ./services/http-service
     image: http-service:1.0.0
-    expose:
-      - "8866"
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.entryPoints=web"
       - "traefik.frontend.rule=PathPrefixStrip:/api/"
     environment:
       JAEGER_AGENT_HOST: jaeger-agent
-      JAEGER_AGENT_PORT: 6831 
-    links:
-      - jaeger-agent
+      JAEGER_AGENT_PORT: 6831
     depends_on:
       - api-gateway
       - entity-service
@@ -50,21 +45,15 @@ services:
     depends_on:
       - mongodb
       - redis
-    expose:
-      - "8899"
     environment:
       JAEGER_AGENT_HOST: jaeger-agent
-      JAEGER_AGENT_PORT: 6831 
-    links:
-      - jaeger-agent      
+      JAEGER_AGENT_PORT: 6831      
     networks:
       - microservices
 
   mongodb:
     image: mongo
     container_name: mongodb
-    expose:
-      - "27017"
     volumes:
       - $PWD/mongo/data/db:/data/db
     networks: 
@@ -73,8 +62,6 @@ services:
   redis:
     image: redis
     container_name: redis
-    expose:
-      - "6379"
     volumes:
       - $PWD/redis/data:/data
     entrypoint:
@@ -125,9 +112,6 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./elastic/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    ports:
-      - "9200:9200"
-      - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
       ELASTIC_PASSWORD: changeme
@@ -143,9 +127,6 @@ services:
     volumes:
       - ./elastic/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./elastic/logstash/pipeline:/usr/share/logstash/pipeline:ro
-    ports:
-      - "5000:5000/udp"
-      - "5000:5000/tcp"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
       LOGSPOUT: ignore
@@ -162,8 +143,6 @@ services:
       ROUTE_URIS: logstash://logstash:5000
       DEBUG: 1
       LOGSPOUT: ignore
-    ports:
-      - "8090:80"
     networks:
       - microservices
     depends_on:
@@ -176,10 +155,13 @@ services:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - ./elastic/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
-    ports:
-      - "5601:5601"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathPrefixStrip:/kibana/"
     environment:
-      LOGSPOUT: ignore      
+      LOGSPOUT: ignore     
+      SERVER_BASEPATH: "/kibana"
     networks:
       - microservices
     depends_on:
@@ -200,10 +182,12 @@ services:
 
   jaeger-ui:
     image: jaegertracing/jaeger-query:1.11
-    ports:
-      - "16686:16686"
-      - "16687:16687"   
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathPrefix:/tracing/"     
     environment:
+      QUERY_BASE_PATH: "/tracing"
       SPAN_STORAGE_TYPE: elasticsearch
       ES_SERVER_URLS: http://elasticsearch:9200
       ES_USERNAME: elastic
@@ -248,31 +232,37 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
-    ports:
-      - 9090:9090
+      - '--web.external-url=http://localhost:9090/metrics'
+      - '--web.route-prefix=/'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathPrefixStrip:/metrics/"
     environment:
-      LOGSPOUT: ignore        
+      LOGSPOUT: ignore
     networks:
       - microservices    
 
   alertmanager:
     image: prom/alertmanager
-    ports:
-      - 9093:9093
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathPrefixStrip:/alert/"
     volumes:
       - ./prometheus/alertmanager/:/etc/alertmanager/
     command:
       - '--config.file=/etc/alertmanager/config.yml'
       - '--storage.path=/alertmanager'  
+      - '--web.external-url=http://localhost:9093/alert'
+      - '--web.route-prefix=/'      
     environment:
-      LOGSPOUT: ignore        
+      LOGSPOUT: ignore
     networks:
       - microservices
 
   redis-exporter:
     image: oliver006/redis_exporter
-    expose:
-      - "9121"
     environment:
       LOGSPOUT: ignore  
       REDIS_ADDR: redis:6379
@@ -281,8 +271,6 @@ services:
 
   mongo-exporter:
     image: ssalaues/mongodb-exporter
-    expose:
-      - "9216"
     environment:
       LOGSPOUT: ignore  
       MONGODB_URI: mongodb://mongodb:27017
@@ -291,12 +279,15 @@ services:
 
   grafana:
     image: grafana/grafana
-    ports:
-      - 3000:3000
-    env_file:
-      - ./grafana/config.monitoring
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathPrefixStrip:/dashboard/"
     environment:
-      LOGSPOUT: ignore        
+      LOGSPOUT: ignore
+      GF_SECURITY_ADMIN_PASSWORD: changeme
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_ROOT_URL: http://localhost/dashboard/
     networks:
       - microservices
 
