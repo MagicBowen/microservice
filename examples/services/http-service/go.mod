@@ -6,6 +6,7 @@ require (
 	github.com/grpc-ecosystem/grpc-opentracing v0.0.0-20180507213350-8e809c8a8645
 	github.com/labstack/echo/v4 v4.1.5
 	github.com/magicbowen/microservice v0.0.0-20190514222248-b57f7ea00b84
+	github.com/prometheus/client_golang v0.9.2
 	google.golang.org/grpc v1.20.1
 )
 

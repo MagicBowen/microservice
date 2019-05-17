@@ -10,7 +10,24 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/MagicBowen/microservice/examples/services/utils/tracing"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
+
+var (
+   	httpCounters = prometheus.NewCounterVec(
+   		prometheus.CounterOpts{
+   			Name: "http_service_counters",
+   			Help: "Number http requests",
+   		},
+   		[]string{"http_service"},
+   	)	
+)
+
+func init() {
+	prometheus.MustRegister(httpCounters)
+}
 
 func getContext(c echo.Context) context.Context {
 	return c.Request().Context()
@@ -75,6 +92,32 @@ func getSiteName() string {
 	return host
 }
 
+func health(c echo.Context) error {
+	return c.NoContent(http.StatusOK)
+}
+
+func metrics(c echo.Context) error {
+	log.Printf("handle prometheus collector request\n")
+	promhttp.Handler().ServeHTTP(c.Response().Writer, c.Request())
+	return nil
+}
+
+func metricMiddleware() echo.MiddlewareFunc {
+	return func(h echo.HandlerFunc) echo.HandlerFunc {
+		return func (c echo.Context) error {
+			defer func() {
+				if c.Response().Status >= http.StatusBadRequest {
+					httpCounters.With(prometheus.Labels{"http_service":"failedCount"}).Inc()
+				} else {
+					httpCounters.With(prometheus.Labels{"http_service":"sucessCount"}).Inc()
+				}
+				httpCounters.With(prometheus.Labels{"http_service":"totalCount"}).Inc()
+			}()
+			return h(c)
+		}
+	}
+}
+
 func home(c echo.Context) error {
 	log.Printf("Home Page!\n")
 	return c.String(http.StatusOK, "Welcome to "+getSiteName())
@@ -83,13 +126,24 @@ func home(c echo.Context) error {
 func initHTTPServer(address string, tracer *tracing.ServiceTracer) {
 	e := echo.New()
 
+	log.Printf("new server...\n")
+
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(tracing.EchoMiddleware(tracer))
+	e.Use(metricMiddleware())
 
+	log.Printf("register middleware...\n")
+	
 	// Routes
 	e.GET("/", home)
+	e.GET("/health", health)
+	e.GET("/metrics", metrics)
+
+	log.Printf("set service handler...\n")
+
+	// User Routes
 	e.POST("/users", createUser)
 	e.GET("/users/:id", getUser)
 	e.PUT("/users/:id", updateUser)
