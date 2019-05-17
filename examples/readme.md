@@ -16,7 +16,7 @@
 - [x]: distributed trace
 - [x]: dependence of service by health
 - [x]: metrics in prometheus
-- [ ]: route to kibana, jaeger, prometheus by traefik
+- [x]: route to kibana, jaeger, prometheus by traefik
 - [ ]: entity service use mongo to publish entity event
 - [ ]: event services compete to deal msgs in kafka
 - [ ]: CD pipeline
