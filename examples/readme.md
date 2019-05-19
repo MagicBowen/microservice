@@ -360,42 +360,6 @@ reference:
 - 将数据库变更自动写到kafka：https://debezium.io/
 - dockers of debezium: https://hub.docker.com/u/debezium
 
-
-## distributed lock
-
-
-## circuit breaker
-
-reference:
-- https://github.com/afex/hystrix-go
-
-
-## global ID service
-
-demand:
-- 全局唯一
-- 趋势递增：由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。
-- 单调递增：事务版本号、IM增量消息、排序等特殊需求
-- 信息安全：与上一个冲突，在一些应用场景下，会需要ID无规则、不规则。避免泄露MAC地址或者ID规律。
-- 高可用：
-
-algorithm:
-- UUID
-- snowflake
-	- 64bit,对ID进行分段：timestamp + workerId + seqID 
-- 借助数据库
-	- 利用数据生成自增索引
-	- 多数据库分库分表，解决高可用问题
-	- 每个写库设置不同的 auto_increment 初始值，以及相同的增长步长
-	- 借助redis的单进程特点，使用redis生成
-- Leaf
-	- Leaf-segment （可以利用双buffer优化）
-	- Leaf-snowflake
-
-reference:
-- https://tech.meituan.com/2017/04/21/mt-leaf.html
-- https://gavinlee1.github.io/2017/06/28/%E5%B8%B8%E8%A7%81%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%A8%E5%B1%80%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5%E5%8F%8A%E7%AE%97%E6%B3%95%E7%9A%84%E5%AF%B9%E6%AF%94/
-
 ## DB
 
 ### mysql
@@ -433,3 +397,39 @@ redis主从复制和集群区别很明显，前者是为了提供冗余高可用
 
 reference:
 - https://segmentfault.com/a/1190000015804406
+
+
+## distributed lock
+
+
+## circuit breaker
+
+reference:
+- https://github.com/afex/hystrix-go
+
+
+## global ID service
+
+demand:
+- 全局唯一
+- 趋势递增：由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。
+- 单调递增：事务版本号、IM增量消息、排序等特殊需求
+- 信息安全：与上一个冲突，在一些应用场景下，会需要ID无规则、不规则。避免泄露MAC地址或者ID规律。
+- 高可用：
+
+algorithm:
+- UUID
+- snowflake
+	- 64bit,对ID进行分段：timestamp + workerId + seqID 
+- 借助数据库
+	- 利用数据生成自增索引
+	- 多数据库分库分表，解决高可用问题
+	- 每个写库设置不同的 auto_increment 初始值，以及相同的增长步长
+	- 借助redis的单进程特点，使用redis生成
+- Leaf
+	- Leaf-segment （可以利用双buffer优化）
+	- Leaf-snowflake
+
+reference:
+- https://tech.meituan.com/2017/04/21/mt-leaf.html
+- https://gavinlee1.github.io/2017/06/28/%E5%B8%B8%E8%A7%81%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%A8%E5%B1%80%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5%E5%8F%8A%E7%AE%97%E6%B3%95%E7%9A%84%E5%AF%B9%E6%AF%94/
