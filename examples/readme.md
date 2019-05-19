@@ -360,6 +360,12 @@ reference:
 ## distributed lock
 
 
+## circuit breaker
+
+reference:
+- https://github.com/afex/hystrix-go
+
+
 ## global ID service
 
 demand:
