@@ -82,6 +82,9 @@ reference:
 - https://medium.com/@maxy_ermayank/service-registration-and-discovery-configuration-management-dffb15fc08a7
 - https://deaddesk.top/service-discovery-with-etcd/
 
+ETCD vs Redis：
+redis首先追求的是性能和可用性，满足AP。ETCD满足CP，有租约和watch机制，数据有版本号，更适合服务注册以及分布式配置中心。
+
 ## Load Balance
 
 - Proxy Model
@@ -341,5 +344,70 @@ reference:
 
 ## MQ
 
+消息顺序
+- 严格消息顺序，需要保证消息发往同一个消费者，且获得上一条消息的ACK后再发送后一条消息。
+消息去重
+- 消费端处理消息的业务逻辑保持幂等性
+- 保证每条消息都有唯一编号且保证消息处理成功与去重表的日志同时出现（消费者维护一份成功处理消息ID的日志）
+- 去重表需要有一个去重窗口
+事务消息
+- 将事务分为本地事务和远端事务
+- 本地事务和消息发送在一起，保证事务和消息的发送的仍有事务关系
+- 由消息队列保证消息不丢失，通知远端。远端处理超时或者失败，继续让远端重试处理
+- 远端处理失败一定次数后，上报告警人工干预
+
 
 ## distributed lock
+
+
+## global ID service
+
+demand:
+- 全局唯一
+- 趋势递增：由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。
+- 单调递增：事务版本号、IM增量消息、排序等特殊需求
+- 信息安全：与上一个冲突，在一些应用场景下，会需要ID无规则、不规则。避免泄露MAC地址或者ID规律。
+- 高可用：
+
+algorithm:
+- UUID
+- snowflake
+	- 64bit,对ID进行分段：timestamp + workerId + seqID 
+- 借助数据库
+	- 利用数据生成自增索引
+	- 多数据库分库分表，解决高可用问题
+	- 每个写库设置不同的 auto_increment 初始值，以及相同的增长步长
+	- 借助redis的单进程特点，使用redis生成
+- Leaf
+	- Leaf-segment （可以利用双buffer优化）
+	- Leaf-snowflake
+
+reference:
+- https://tech.meituan.com/2017/04/21/mt-leaf.html
+- https://gavinlee1.github.io/2017/06/28/%E5%B8%B8%E8%A7%81%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%A8%E5%B1%80%E5%94%AF%E4%B8%80ID%E7%94%9F%E6%88%90%E7%AD%96%E7%95%A5%E5%8F%8A%E7%AE%97%E6%B3%95%E7%9A%84%E5%AF%B9%E6%AF%94/
+
+## DB
+
+半同步复制
+binary log
+relay log
+
+读写分离架构演进
+读写分离后的数据一致性问题以及解决手段
+mysql的读写分离和Mongo的集群的区别：核心在于mongoDB内置选举以及sharding的能力，sharding可以让数据容量随着机器数的增多水平扩展。mongoDB的集群一般是副本集和sharding结合。
+
+reference:
+- https://mp.weixin.qq.com/s/7vUrsY0SDvBTZQewwNkCiA
+
+## cache
+
+cache和DB的数据一致性方案
+- 读操作先从缓存读，缓存没有的话，去DB里拿，顺便写入缓存
+- 数据库更改，一般先删除缓存（大多数缓存的复杂对象修改代价大），然后写数据库。写数据库成功后不更新缓存，等待读操作自行更新缓存
+- 为了避免数据从缓存中删除后，在更改数据库未成功的时候，又有并发读取该数据引起的缓存更新不一致的问题。每个写DB的操作先建立一个写DB缓存，写成功后删除。新的并发进来发现缓存没有数据，还需要检查写DB缓存，正在写DB为成功的数据需要客户反复读。
+- 写数据库的操作为了避免出现缓存不一致，还可以有一个binlog的异步消费者，针对任何DB修改，等待一段时间t后，再次删除缓存一次。这样可以再做一次保证，任何不一致最多只能存在t时间。这可以解决读操作从备用数据库读到还未来的及同步过去的数据造成的不一致的问题。
+
+redis主从复制和集群区别很明显，前者是为了提供冗余高可用，后者是为了将数据分散保存，不同的redis节点有不同的数据。
+
+reference:
+- https://segmentfault.com/a/1190000015804406
