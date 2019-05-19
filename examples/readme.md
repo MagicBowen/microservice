@@ -356,6 +356,10 @@ reference:
 - 由消息队列保证消息不丢失，通知远端。远端处理超时或者失败，继续让远端重试处理
 - 远端处理失败一定次数后，上报告警人工干预
 
+reference:
+- 将数据库变更自动写到kafka：https://debezium.io/
+- dockers of debezium: https://hub.docker.com/u/debezium
+
 
 ## distributed lock
 
@@ -394,9 +398,21 @@ reference:
 
 ## DB
 
+### mysql
 半同步复制
 binary log
 relay log
+
+### mongoDB
+
+oplog:
+单节点mongoDB使能oplog，启动配置文件或者命令行使能“--replSet rs0”，然后开始Mongo shell
+
+```sh
+use local
+rs.initiate()
+db.oplog.rs.find()
+```
 
 读写分离架构演进
 读写分离后的数据一致性问题以及解决手段

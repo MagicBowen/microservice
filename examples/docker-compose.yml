@@ -54,6 +54,7 @@ services:
   mongodb:
     image: mongo
     container_name: mongodb
+    command: --replSet rs0
     volumes:
       - $PWD/mongo/data/db:/data/db
     networks: 
