@@ -292,4 +292,41 @@ services:
     networks:
       - microservices
 
+  zookeeper:
+    image: debezium/zookeeper:${DEBEZIUM_VERSION}
+    ports:
+     - 2181:2181
+     - 2888:2888
+     - 3888:3888        
+    environment:
+      LOGSPOUT: ignore
+    networks:
+      - microservices
+
+  kafka:
+    image: debezium/kafka:${DEBEZIUM_VERSION}
+    ports:
+     - 9092:9092    
+    environment:
+      ZOOKEEPER_CONNECT: zookeeper:2181
+      LOGSPOUT: ignore
+    networks:
+      - microservices    
+      
+  connector:
+    image: debezium/connect:${DEBEZIUM_VERSION}
+    ports:
+     - 8083:8083
+    links:
+     - kafka
+     - mongodb
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+      LOGSPOUT: ignore
+    networks:
+      - microservices           
 

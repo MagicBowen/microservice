@@ -11,7 +11,6 @@
 - [x]: register and discovery of mongo and redis from etcd
 - [x]: register and discovery of entity service from etcd
 - [x]: LB to entity service
-- [ ]: Use graphQL
 - [x]: logstash log to ELK (spike fluentD)
 - [x]: distributed trace
 - [x]: dependence of service by health
@@ -19,6 +18,7 @@
 - [x]: route to kibana, jaeger, prometheus by traefik
 - [ ]: entity service use mongo to publish entity event
 - [ ]: event services compete to deal msgs in kafka
+- [ ]: Use graphQL
 - [ ]: CD pipeline
 - [ ]: data analyzing by spark
 - [ ]: stream by flink
@@ -358,6 +358,7 @@ reference:
 
 reference:
 - 将数据库变更自动写到kafka：https://debezium.io/
+- https://github.com/debezium/debezium-examples
 - dockers of debezium: https://hub.docker.com/u/debezium
 
 ## DB
