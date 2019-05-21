@@ -311,11 +311,7 @@ services:
     image: sheepkiller/kafka-manager
     command: 
     ports:
-     - 9000:9000
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.entryPoints=web"
-      - "traefik.frontend.rule=PathPrefixStrip:/kafka/"     
+     - 9000:9000   
     environment:
       ZK_HOSTS: zookeeper:2181
       LOGSPOUT: ignore
