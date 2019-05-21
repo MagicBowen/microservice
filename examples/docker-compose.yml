@@ -293,33 +293,37 @@ services:
       - microservices
 
   zookeeper:
-    image: debezium/zookeeper:${DEBEZIUM_VERSION}
-    ports:
-     - 2181:2181
-     - 2888:2888
-     - 3888:3888        
+    image: debezium/zookeeper:${DEBEZIUM_VERSION}     
     environment:
       LOGSPOUT: ignore
     networks:
       - microservices
 
   kafka:
-    image: debezium/kafka:${DEBEZIUM_VERSION}
-    ports:
-     - 9092:9092    
+    image: debezium/kafka:${DEBEZIUM_VERSION}  
     environment:
       ZOOKEEPER_CONNECT: zookeeper:2181
       LOGSPOUT: ignore
     networks:
       - microservices    
+
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    command: 
+    ports:
+     - 9000:9000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.entryPoints=web"
+      - "traefik.frontend.rule=PathPrefixStrip:/kafka/"     
+    environment:
+      ZK_HOSTS: zookeeper:2181
+      LOGSPOUT: ignore
+    networks:
+      - microservices  
       
   connector:
     image: debezium/connect:${DEBEZIUM_VERSION}
-    ports:
-     - 8083:8083
-    links:
-     - kafka
-     - mongodb
     environment:
       BOOTSTRAP_SERVERS: kafka:9092
       GROUP_ID: 1

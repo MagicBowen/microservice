@@ -356,14 +356,21 @@ reference:
 - 由消息队列保证消息不丢失，通知远端。远端处理超时或者失败，继续让远端重试处理
 - 远端处理失败一定次数后，上报告警人工干预
 
+kafka的Exactly once：
+- producer开启幂等性`enable.idempotence = true`，`ack=-1`，这样可以保证发送到每个分区的消息的exactly once
+- consumer需要配置手动提交offset，需要在业务处理完后持久化offset并且同步提交offset。主要业务处理后业务数据的持久化和offset的持久化以及同步提交offset需要在一个事务里面。对业务数据和offset可以事务存储在一个支持ACID的存储里。
+
+
 reference:
 - 将数据库变更自动写到kafka：https://debezium.io/
 - https://github.com/debezium/debezium-examples
 - dockers of debezium: https://hub.docker.com/u/debezium
+- kafka事务：http://www.jasongj.com/kafka/transaction/
 
 ## DB
 
 ### mysql
+
 半同步复制
 binary log
 relay log

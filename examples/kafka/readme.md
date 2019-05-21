@@ -83,6 +83,12 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["start"]
 ```
 
+### kafka manager
+
+```sh
+docker run -it --rm  -p 9000:9000 -e ZK_HOSTS="your-zk.domain:2181" -e APPLICATION_SECRET=letmein sheepkiller/kafka-manager
+```
+
 ### reference
 
 - https://hub.docker.com/r/debezium/kafka/dockerfile

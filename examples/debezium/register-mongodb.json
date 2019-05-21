@@ -1,13 +1,11 @@
 {
-    "name": "inventory-connector",
+    "name": "microservice-connector",
     "config": {
         "connector.class" : "io.debezium.connector.mongodb.MongoDbConnector",
         "tasks.max" : "1",
         "mongodb.hosts" : "rs0/mongodb:27017",
-        "mongodb.name" : "dbserver1",
-        "mongodb.user" : "debezium",
-        "mongodb.password" : "dbz",
-        "database.whitelist" : "inventory",
+        "mongodb.name" : "mongocollector",
+        "database.whitelist" : "microservice-example",
         "database.history.kafka.bootstrap.servers" : "kafka:9092"
     }
 }

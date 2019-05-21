@@ -29,6 +29,22 @@ docker-compose -f docker-compose-mongodb.yaml exec kafka /kafka/bin/kafka-consol
     --topic dbserver1.inventory.customers
 ```
 
+In microservice case:
+
+```sh
+docker exec examples_kafka_1 /kafka/bin/kafka-console-consumer.sh \
+    --bootstrap-server kafka:9092 \
+    --from-beginning \
+    --property print.key=true \
+    --topic mongocollector.microservice-example.user
+```
+
+### use kafka watcher to listen topic
+
+```sh
+docker run -it --name watcher --rm --net=examples_microservices --link examples_zookeeper_1:zookeeper --link examples_kafka_1:kafka -e ZOOKEEPER_CONNECT=zookeeper:2181 -e KAFKA_BROKER=kafka:9092 debezium/kafka:0.9 watch-topic -a -k mongocollector.microservice-example.user
+```
+
 ### Modify records in the database via MongoDB client
 
 ```sh
