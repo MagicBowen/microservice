@@ -16,7 +16,7 @@
 - [x]: dependence of service by health
 - [x]: metrics in prometheus
 - [x]: route to kibana, jaeger, prometheus by traefik
-- [ ]: entity service use mongo to publish entity event
+- [x]: entity service use mongo to publish entity event
 - [ ]: event services compete to deal msgs in kafka
 - [ ]: Use graphQL
 - [ ]: CD pipeline
